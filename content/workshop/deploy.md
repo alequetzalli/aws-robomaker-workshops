@@ -26,34 +26,34 @@ Esta actividad cubre los pasos necesarios para preparar un robot físico para re
 
 2. Para esta actividad, necesita el ARN para el **rol de implementación** (deployment role) que se creó en el template de CloudFormation. Mire en la pestaña **Outputs** y copie el valor del ARN, que debería ser similar a esto:
 
-    `` `texto
-    arn: aws: iam :: 123456789012: role / robomaker-deployment-role
-    `` `
+    ```text
+    arn:aws:iam::123456789012:role/robomaker-deployment-role
+    ```
 
 3. Usando el ARN que encontró en el paso anterior, ejecute el siguiente comando para permitir que AWS Greengrass lo use para la implementación:
 
-    `` `fiesta
+    ```bash
     # reemplaza DEPLOYMENT_ROLE_ARN con tu ARN
-    aws greengrass servicio-asociado-rol-a-cuenta --role-arn $ DEPLOYMENT_ROLE_ARN
-    `` `
+    aws greengrass associate-service-role-to-account --role-arn $DEPLOYMENT_ROLE_ARN
+    ```
 
-6. El paquete que usaremos para este paso ha sido creado previamente, simplemente debe decirle a AWS RoboMaker dónde encontrarlo. Abra la consola de AWS RoboMaker y revise las aplicaciones de robot *(Desarrollo-> Aplicaciones de robot)*. Haga clic en el nombre de la aplicación del robot, *RoboMakerHelloWorldRobot*, para revisar sus detalles.
+4. El paquete que usaremos para este paso ha sido creado previamente, simplemente debe decirle a AWS RoboMaker dónde encontrarlo. Abra la consola de AWS RoboMaker y revise las aplicaciones de robot *(Desarrollo-> Aplicaciones de robot)*. Haga clic en el nombre de la aplicación del robot, *RoboMakerHelloWorldRobot*, para revisar sus detalles.
 
-7. Para ver la ubicación de los archivos de paquete para la aplicación, haga clic en el enlace **$ LATEST**, en la versión más reciente.
+5. Para ver la ubicación de los archivos de paquete para la aplicación, haga clic en el enlace **$ LATEST**, en la versión más reciente.
 
 6. Ahora verá los detalles de la aplicación *RoboMakerHelloWorldRobot*, incluyendo los "sources". Tenga en cuenta que actualmente solo tiene una fuente: la versión X86_64 (esta es la versión que acaba de usar para la simulación). Para contarle a RoboMaker sobre la versión ARMHF, haga clic en el botón **Actualizar** (Update).
 
 7. Copie el siguiente archivo *tar* del robot en su S3 bucket.
 
-    `` `texto
-    aws s3 cp s3: //robomakerbundles/turtlebot3-burger/hello-world/robot-armhf.tar s3: // <YOUR_BUCKET_NAME> /hello-world/robot-armhf.tar
-    `` `
+    ```text
+    aws s3 cp s3://robomakerbundles/turtlebot3-burger/hello-world/robot-armhf.tar s3://<YOUR_BUCKET_NAME>/hello-world/robot-armhf.tar 
+    ```
 
 8. En el cuadro de texto del archivo de fuente ARMHF, pegue la nueva ubicación S3 para el paquete ARMHF:
 
-    `` `texto
-    s3: // <YOUR_BUCKET_NAME> /hello-world/robot-armhf.tar
-    `` `
+    ```text
+     s3://<YOUR_BUCKET_NAME>/hello-world/robot-armhf.tar 
+    ```
 
     Haga clic en **Crear**.
 
@@ -71,8 +71,6 @@ Esta actividad cubre los pasos necesarios para preparar un robot físico para re
 
 15. Ahora debe descargar los certificados que deben instalarse en su robot. Cuando se instalen en su robot, le dará acceso a su robot para llamar a los servicios de AWS. Haga clic en el botón naranja **Descargar** (download). No es necesario descargar el software *Greengrass Core*. Su dispositivo ha sido preconfigurado con los binarios de Greengrass. Esto descargará un archivo zip llamado *HelloRobot-setup.zip* (o similar, dependiendo del nombre que proporcionó para su robot en el Paso 9 anterior).
 
-    ! [download_certs] (../../ images / download-certs.jpg)
-
 16. Los certificados que acaba de descargar deben copiarse en el robot físico y extraerse en un directorio del dispositivo. Estas instrucciones usan *scp* para copiar archivos al dispositivo y *ssh* para conectarse al dispositivo. Ambos comandos están disponibles en Terminal en macOS y en Windows PowerShell. Sin embargo, la disponibilidad de estas herramientas puede variar, dependiendo de su configuración (particularmente en Windows).
 
 17. Si está utilizando una computadora con Windows, salte al siguiente paso. En macOS, abra la Terminal presionando la barra espaciadora de Comando para iniciar Spotlight y escriba "Terminal", luego haga doble clic en el resultado de la búsqueda. Omita el siguiente con respecto a Windows y continúe con el *paso 17*.
@@ -83,16 +81,16 @@ Esta actividad cubre los pasos necesarios para preparar un robot físico para re
 
 20. Copie el archivo zip a su robot. Reemplace el nombre del archivo con el nombre del archivo que descargó. La dirección IP de su robot se proporcionó con el robot. Se te solicitará una contraseña. La contraseña para el usuario pi es: **robomaker**.
 
-    `` `fiesta
+    ```bash
     # reemplace FILE_NAME con el valor de su archivo zip
-    $ scp FILE_NAME.zip pi @ <ROBOT_IP_ADDRESS>: / home / pi
-    `` `
+    $ scp FILE_NAME.zip pi@<ROBOT_IP_ADDRESS>:/home/pi
+    ```
 
 21. Conéctese al robot, muestre la placa OpenCR, configure los certificados e inicie el servicio AWS Greengrass. En este paso, utilizará *ssh* para conectarse al robot y luego descomprimirá el archivo de certificados en la ubicación utilizada por AWS Greengrass. Finalmente, inicia el servicio AWS Greengrass. Esto permite que el dispositivo recupere su paquete (packege) de robots y lo implemente en el robot. 
 
 Como recordatorio, el usuario es **pi** y la contraseña es **robomaker**.
 
-    `` `fiesta
+    ```bash
     # usa SSH y conéctate al robot. Reemplace ROBOT_IP_ADDRESS con la dirección IP de su dispositivo
     $ ssh pi @ <ROBOT_IP_ADDRESS>
     # ingrese la contraseña: robomaker.
@@ -108,7 +106,7 @@ Como recordatorio, el usuario es **pi** y la contraseña es **robomaker**.
 
     #comience el servicio Greengrass
     $ /greengrass/ggc/core/greengrassd start 
-    `` `
+    ```
 
 22. **Crea una flota** y agrega tu robot a la flota. Las flotas le permiten administrar un grupo de robots. Por ejemplo, puede implementar la misma aplicación de robot en todos los robots de una flota. Luego se asegura de que todos sus robots estén ejecutando el mismo software. Si necesita diferentes robots para ejecutar un software diferente, puede crear varias flotas. En este taller, creará una flota única que contiene un solo robot. En la consola de AWS RoboMaker, elija *Flotas* en *Administración de Flotas*. Haga clic en el botón **Crear una flota**.
 
