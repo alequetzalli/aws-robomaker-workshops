@@ -151,9 +151,9 @@ En el fondo, se estaban siguiendo los mismos pasos que acaba de completar. Al ha
 
      Observe en Gazebo mientras ve como el robot está mirando hacia el norte en la imagen del puente. En este momento, el robot está esperando un mensaje para comenzar a buscar objetivos y encontrar la imagen del perro. Antes de emitir el comando desde el terminal de simulación, veamos las siguientes ventanas y redimensionemos para que podamos verlas todas (puede tomar un poco de ajuste):
 
-     * *Kinesis Video Streams* consola, luego haga clic en su transmisión
-     * *Gazebo*, acerca el hexágono y el robot
-     * *Terminal de trabajo de simulación*, donde emitirá el comando de inicio
+     * Kinesis Video Streams consola, luego haga clic en su transmisión
+     * Gazebo, acerca el hexágono y el robot
+     * Terminal de trabajo de simulación, donde emitirá el comando de inicio
 
 
      No necesita ver demasiado de la ventana de transmisión de video en segundo plano, solo lo suficiente para ver el video humeante.
