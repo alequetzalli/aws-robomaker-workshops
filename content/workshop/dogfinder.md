@@ -110,7 +110,7 @@ En el fondo, se estaban siguiendo los mismos pasos que acaba de completar. Al ha
 
    ... y del **SIM TAB**:
     
-     ```bash
+    ```bash
      
     # Reemplace <YOUR_BUCKET_NAME> con..
     aws s3 cp bundle/output.tar s3://<YOUR_BUCKET_NAME>/dogfinder/output-sim.tar
@@ -133,30 +133,29 @@ En el fondo, se estaban siguiendo los mismos pasos que acaba de completar. Al ha
 
 8. En el **OS TAB**, ejecute el script que creará el robot y las aplicaciones de simulación, luego cree e inicie el trabajo de simulación:
     
-     ```bash
+    ```bash
     # script en el nivel superior del directorio /DogFinder, ajuste según sea necesario
     aws-robomaker-sample-application-dogfinder/submit_job.sh
     ```
 
 
-    Un lanzamiento exitoso devolverá un documento JSON con todos los detalles, incluido un *ARN* con el valor del trabajo de simulación:
+Un lanzamiento exitoso devolverá un documento JSON con todos los detalles, incluido un *ARN* con el valor del trabajo de simulación:
 
     ```json
-    
     "arn": "arn:aws:robomaker:us-west-2:123456789012:simulation-job/sim-8rcvbm7p023f",
     
     ```
 
 9. En este punto, puede abrir una consola de AWS RoboMaker y verificar el estado del trabajo de simulación. Tardará unos minutos en pasar de *Pendiente* a *En ejecución*, pero en ese punto puede abrir las aplicaciones Gazebo y Terminal.
 
-     Observe en Gazebo mientras ve como el robot está mirando hacia el norte en la imagen del puente. En este momento, el robot está esperando un mensaje para comenzar a buscar objetivos y encontrar la imagen del perro. Antes de emitir el comando desde el terminal de simulación, veamos las siguientes ventanas y redimensionemos para que podamos verlas todas (puede tomar un poco de ajuste):
+Observe en Gazebo mientras ve como el robot está mirando hacia el norte en la imagen del puente. En este momento, el robot está esperando un mensaje para comenzar a buscar objetivos y encontrar la imagen del perro. Antes de emitir el comando desde el terminal de simulación, veamos las siguientes ventanas y redimensionemos para que podamos verlas todas (puede tomar un poco de ajuste):
 
-     * Kinesis Video Streams consola, luego haga clic en su transmisión
-     * Gazebo, acerca el hexágono y el robot
-     * Terminal de trabajo de simulación, donde emitirá el comando de inicio
+* **Kinesis Video Streams consola**, luego haga clic en su transmisión
+* **Gazebo**, acerca el hexágono y el robot
+* **Terminal de trabajo de simulación**, donde emitirá el comando de inicio
 
 
-     No necesita ver demasiado de la ventana de transmisión de video en segundo plano, solo lo suficiente para ver el video humeante.
+No necesita ver demasiado de la ventana de transmisión de video en segundo plano, solo lo suficiente para ver el video humeante.
 
 10. En este punto, en Gazebo, el robot debe mirar hacia arriba (hacia el norte); la transmisión de video debe mostrar la foto del puente; y los registros (logs) de CloudWatch deben mostrar un mensaje "Esperando para comenzar a encontrar a Fido". Ahora desde la terminal, enviará un mensaje a un tema que el robot está escuchando para comenzar la acción de búsqueda de objetivos:
 
