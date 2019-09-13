@@ -8,11 +8,11 @@ weight: 2
 
 En este workshop, te vamos a familiarizar con AWS Robomaker, un servicio que le permite desarrollar, simular e implementar fácilmente aplicaciones de robots inteligentes que se integran con los servicios de AWS. Esto incluye servicios de aprendizaje automático de AWS, servicios de monitoreo y servicios de análisis que permiten que un robot transmita datos, navegue, se comunique, comprenda y aprenda. Hoy, también tendrás un robot físico (Robotis TurtleBot 3 Burger) para aprender cómo administrar e implementar aplicaciones de robot en robots de producción con AWS RoboMaker.
 
-AWS RoboMaker extiende el software de robótica de código abierto más utilizado **Robot Operating System**, o [ROS] (http://www.ros.org/). Por lo tanto, este taller incluirá referencias a conceptos y herramientas de ROS. Sin embargo, no se requiere experiencia previa en ROS; si desea obtener más información, consulte el [sitio web de ROS] (http://www.ros.org/).
+AWS RoboMaker extiende el software de robótica de código abierto más utilizado **Robot Operating System**, o [ROS](http://www.ros.org/). Por lo tanto, este taller incluirá referencias a conceptos y herramientas de ROS. Sin embargo, no se requiere experiencia previa en ROS; si desea obtener más información, consulte el [sitio web de ROS](http://www.ros.org/).
 
 **Aquí está nuestra agenda para el día:**
 
-**(1) [Configuración previa al taller]** (https://github.com/jerwallace/aws-robomaker-workshops/blob/master/content/workshop/setup.md /)
+**(1) [Configuración previa al taller](https://github.com/jerwallace/aws-robomaker-workshops/blob/master/content/workshop/setup.md)**
 
 Comenzaremos configurando su cuenta de AWS para desarrollar aplicaciones de robot con AWS RoboMaker.
 
