@@ -20,7 +20,7 @@ Si está en un salón de clases, le proporcionaremos un código de crédito que 
 
 Una vez que haya iniciado sesión con éxito en la consola de AWS, inicie el siguiente "stack" de información en la nube para crear los recursos necesarios:
 
-[! [Launch Stack] (../../images/launch-stack.svg)] (https://console.aws.amazon.com/cloudformation/home#/stacks/new?templateURL=https:// s3.amazonaws.com/assets.robomakerworkshops.com/cfn/bootstrap.cfn.yaml&region=us-west-2)
+[Launch Stack](https://console.aws.amazon.com/cloudformation/home#/stacks/new?templateURL=https:// s3.amazonaws.com/assets.robomakerworkshops.com/cfn/bootstrap.cfn.yaml&region=us-west-2)
 
 Esto creará:
 
@@ -32,12 +32,12 @@ Una vez que se haya lanzado el nuevo "stack", tome nota de los **outputs**. Util
 
 ### Crear video de Kinesis
 
-Finalmente, abra la consola para [Kinesis Video Streams] (https://console.aws.amazon.com/kinesisvideo/home) y cree un nuevo stream con la siguiente configuración. Al crear el stream, **desmarque "Usar la configuración predeterminada"**:
+Finalmente, abra la consola para [Kinesis Video Streams](https://console.aws.amazon.com/kinesisvideo/home) y cree un nuevo stream con la siguiente configuración. Al crear el stream, **desmarque "Usar la configuración predeterminada"**:
 
    - **Nombre de la transmisión**: *roboMaker_TurtleBot3*
    - **Período de retención de datos**: *1 hora*
 
-! [kinesis-streams] (../../ images / kinesis-streams.png)
+
 *Anota el nombre del stream (`roboMaker_TurtleBot3`) para su uso futuro.*
 
 ** ¡Felicidades! **Has completado el proceso de configuración del taller.**
