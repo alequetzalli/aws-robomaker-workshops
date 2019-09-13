@@ -94,9 +94,9 @@ Cuando termine, habrá aprendido a:
 
     *¿Por qué tengo que seguir todos estos pasos cuando en la actividad anterior hice clic en un comando de menú y ocurrió la magia?!?!* 
 
-    Ese es uno de los beneficios de AWS RoboMaker, la capacidad de incluir la complejidad de ROS en unos pocos comandos.😁  
+Ese es uno de los beneficios de AWS RoboMaker, la capacidad de incluir la complejidad de ROS en unos pocos comandos.😁  
     
-    En el fondo, se estaban siguiendo los mismos pasos que acaba de completar. Al hacer esto paso a paso, puede entender mejor el proceso completo de construir e implementar una aplicación de robot. En muchas situaciones, tendrá que pasar por configuraciones similares para sus aplicaciones, por lo que es útil familiarizarse con ellas.
+En el fondo, se estaban siguiendo los mismos pasos que acaba de completar. Al hacer esto paso a paso, puede entender mejor el proceso completo de construir e implementar una aplicación de robot. En muchas situaciones, tendrá que pasar por configuraciones similares para sus aplicaciones, por lo que es útil familiarizarse con ellas.
 
 6. Con ambas aplicaciones integradas, ahora las copiará a S3 para que puedan ser utilizadas por el servicio de simulación. Para ambas aplicaciones, copie a S3:
 
