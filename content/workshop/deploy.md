@@ -4,136 +4,138 @@ chapter: true
 weight: 10
 ---
 
-# Deploy a ROS application to your robot
 
-In the previous exercises, you used RoboMaker with Cloud9 to build, bundle and simulate two different robot applications. In the final activity of this workshop, we will deploy the simple Hello World application we built in the first activity.
+# Implemente una aplicación ROS en su robot
 
-In RoboMaker, simulations use Gazebo, which runs in AWS on a fleet of servers with x86 CPU architecture.  However, many physical robots use different CPU architectures, such as ARM.  Before a robot application can be deployed and invoked on a physical robot, it may need to be rebuilt and rebundled for the target CPU architecture of the robot.
+En los ejercicios anteriores, usó RoboMaker con Cloud9 para construir, agrupar y simular dos aplicaciones de robot diferentes. En la actividad final de este taller, implementaremos la sencilla aplicación 'Hello World' que creamos en la primera actividad.
 
-In this workshop, you'll be deploying an application to a TurtleBot 3 Burger robot.  This robot uses a Raspberry Pi, which is based on the ARMHF architecture.  Within the RoboMaker Cloud9 environment, we have pre-installed a Docker container that simplifies the process of compiling for alternate architectures.  The initial build and bundle operation for an alternate architecture may take up to 20 minutes, so it is outside the scope of this workshop.  If you have time after completing this exercise, you can review the detailed steps for building for alternate architectures in the [RoboMaker documentation](https://docs.aws.amazon.com/robomaker/latest/dg/gs-deploy.html).  For this exercise, we have pre-created a bundle for the TurtleBot3 Burger robot.  We will use that bundle to deploy the application to your robot.
+En RoboMaker, las simulaciones usan Gazebo, que se ejecuta en AWS en una flota de servidores con arquitectura de CPU x86. Sin embargo, muchos robots físicos usan diferentes arquitecturas de CPU, como ARM. Antes de que una aplicación de robot pueda implementarse e invocarse en un robot físico, es posible que deba reconstruirse y volver a agruparse para la arquitectura de CPU de destino del robot.
 
-This activity covers the steps required to prepare a physical robot to receive a ROS application using RoboMaker. When complete, you will have learned:
+En este taller, implementará una aplicación en un robot 🤖 *TurtleBot 3 Burger*. Este robot utiliza un Raspberry Pi, que se basa en la arquitectura ARMHF. Dentro del entorno de RoboMaker Cloud9, hemos preinstalado un contenedor Docker que simplifica el proceso de compilación para arquitecturas alternativas. Si tiene tiempo después de completar este ejercicio, puede revisar los pasos detallados para construir arquitecturas alternativas en la [documentación de RoboMaker](https://docs.aws.amazon.com/robomaker/latest/dg/gs-deploy.html ). Para este ejercicio, hemos creado previamente un paquete para el robot TurtleBot3 Burger. Usaremos ese paquete para implementar la aplicación en su robot.
 
-* How to register your robot in RoboMaker.
-* How to deploy authentication certificates to your robots.
-* How to create robot application versions, and robot fleets.
-* How to deploy a bundled ROS application to your robot.
+Esta actividad cubre los pasos necesarios para preparar un robot físico para recibir una aplicación ROS utilizando RoboMaker. Cuando termine, habrá aprendido:
 
-## Activity tasks
+* Cómo registrar su robot en RoboMaker.
+* Cómo implementar certificados de autenticación en sus robots.
+* Cómo crear versiones de aplicaciones de robots y flotas de robots.
+* Cómo implementar una aplicación ROS incluida en su robot.
 
-1. Open the Cloud9 development environment you used in exercise 2 of this workshop.
+## Tareas de la actividad
 
-2.  For this activity, you need the ARN for the **deployment role** that was created in the cloudformation template.  Look in the **Outputs** tab and copy the value of the Arn, it should look similar to this:
+1. Abra el *entorno de desarrollo* Cloud9 que utilizó en el ejercicio 2 de este taller.
 
-    ```text
-    arn:aws:iam::123456789012:role/robomaker-deployment-role
-    ```
+2. Para esta actividad, necesita el ARN para el **rol de implementación** (deployment role) que se creó en el template de CloudFormation. Mire en la pestaña **Outputs** y copie el valor del ARN, que debería ser similar a esto:
 
-3. Using the ARN you found in the previous step, run the command below to allow Greengrass to use it for deployment:
+    `` `texto
+    arn: aws: iam :: 123456789012: role / robomaker-deployment-role
+    `` `
 
-    ```bash
-    # replace DEPLOYMENT_ROLE_ARN with your ARN
-    aws greengrass associate-service-role-to-account --role-arn $DEPLOYMENT_ROLE_ARN
-    ```
+3. Usando el ARN que encontró en el paso anterior, ejecute el siguiente comando para permitir que AWS Greengrass lo use para la implementación:
 
-6. The bundle that we will use for this step has been pre-created, you simply need to tell RoboMaker where to find it.  Open the RoboMaker console, and review the Robot Applications (Development->Robot Applications).  Click on the name of the robot application, RoboMakerHelloWorldRobot, to review its details.
+    `` `fiesta
+    # reemplaza DEPLOYMENT_ROLE_ARN con tu ARN
+    aws greengrass servicio-asociado-rol-a-cuenta --role-arn $ DEPLOYMENT_ROLE_ARN
+    `` `
 
-7. To view the location of the bundle files for the application, click on the **$LATEST** link, under Latest version.
+6. El paquete que usaremos para este paso ha sido creado previamente, simplemente debe decirle a AWS RoboMaker dónde encontrarlo. Abra la consola de AWS RoboMaker y revise las aplicaciones de robot *(Desarrollo-> Aplicaciones de robot)*. Haga clic en el nombre de la aplicación del robot, *RoboMakerHelloWorldRobot*, para revisar sus detalles.
 
-6. You will now see the details for the RoboMakerHelloWorldRobot application, including the Sources.  Notice that it currently has only one source:  the X86_64 version (this is the version you just used for simulation).  To tell RoboMaker about the ARMHF version, click the **Update** button.
+7. Para ver la ubicación de los archivos de paquete para la aplicación, haga clic en el enlace **$ LATEST**, en la versión más reciente.
 
-7. Copy the following robot tar file into your S3 bucket.
+6. Ahora verá los detalles de la aplicación *RoboMakerHelloWorldRobot*, incluyendo los "sources". Tenga en cuenta que actualmente solo tiene una fuente: la versión X86_64 (esta es la versión que acaba de usar para la simulación). Para contarle a RoboMaker sobre la versión ARMHF, haga clic en el botón **Actualizar** (Update).
 
-    ```text
-    aws s3 cp s3://robomakerbundles/turtlebot3-burger/hello-world/robot-armhf.tar s3://<YOUR_BUCKET_NAME>/hello-world/robot-armhf.tar
-    ```
+7. Copie el siguiente archivo *tar* del robot en su S3 bucket.
 
-8. In the ARMHF souce file text box, paste the new S3 location for the ARMHF bundle:
+    `` `texto
+    aws s3 cp s3: //robomakerbundles/turtlebot3-burger/hello-world/robot-armhf.tar s3: // <YOUR_BUCKET_NAME> /hello-world/robot-armhf.tar
+    `` `
 
-    ```text
-    s3://<YOUR_BUCKET_NAME>/hello-world/robot-armhf.tar
-    ```
+8. En el cuadro de texto del archivo de fuente ARMHF, pegue la nueva ubicación S3 para el paquete ARMHF:
 
-    Click **Create**.
+    `` `texto
+    s3: // <YOUR_BUCKET_NAME> /hello-world/robot-armhf.tar
+    `` `
 
-9. Before RoboMaker can deploy to a physical robot, you need to configure your robot.  You need to create authentication certificates that will enable the device to securely communicate with AWS.  You also need to register your robot in RoboMaker.  To get started with this task, click on the Robots link under Fleet Management.
+    Haga clic en **Crear**.
 
-10. Click on the **Create robot** button.
+9. Antes de que AWS RoboMaker pueda desplegarse en un robot físico, debe configurar su robot. Debe crear certificados de autenticación que permitan que el dispositivo se comunique de forma segura con AWS. También debe registrar su robot en AWS RoboMaker. Para comenzar con esta tarea, haga clic en el enlace de **robots** bajo la seccion de *Administración de flotas*.
 
-11. Give your robot a friendly name (i.e. HelloRobot), and set the Architecture to ARMHF.  By setting this value, you're telling RoboMaker to use the ARMHF bundle when deploying to this robot.
+10. Haga clic en el botón **Crear robot**.
 
-12. RoboMaker uses AWS GreenGrass to deploy your robot bundles to your device.  You must now configure RoboMaker's GreenGrass settings.  You can leave the *AWS Grengrass group* and *AWS Greengrass prefix* settings as their default values.
+11. Déle a su robot un nombre y configure la Arquitectura en ARMHF. Al establecer este valor, le está diciendo a AWS RoboMaker que use el paquete ARMHF cuando realice la implementación en este robot.
 
-13.  For *IAM role*, choose "robomaker-deployment-role".  This role was created in exercise 1 of this worksop.  This role is assumed by your robot application when it runs on your device and gives your device permission to access AWS services on your behalf.
+12. AWS RoboMaker utiliza AWS GreenGrass para implementar sus paquetes de robots en su dispositivo. Ahora debe configurar los ajustes de AWS GreenGrass de RoboMaker. Puede dejar la configuración de *Grupo de AWS Greengrass* y *Prefijo de AWS Greengrass* como sus valores predeterminados.
 
-14.  Click **Create**.
+13. Para *rol del IAM *, elija "rol-deployment-robomaker". Este rol fue creado en el ejercicio 1 de este trabajo. Su aplicación de robot asume esta función cuando se ejecuta en su dispositivo y le da permiso para acceder a los servicios de AWS en su nombre.
 
-15.  You must now download the certificates that need to be installed on your robot.  When installed on your robot, they will give your robot access to call AWS services.  Click the orange **Download** button.  There is no need to download the Greengrass Core software.  Your device has been pre-configured with the Greengrass binaries.  This will download a zip file named HelloRobot-setup.zip (or similar, depending on the name you provided for your robot in Step 9 above).
+14. Haga clic en **Crear**.
 
-    ![3_download_certs](../../images/download-certs.jpg)
+15. Ahora debe descargar los certificados que deben instalarse en su robot. Cuando se instalen en su robot, le dará acceso a su robot para llamar a los servicios de AWS. Haga clic en el botón naranja **Descargar** (download). No es necesario descargar el software *Greengrass Core*. Su dispositivo ha sido preconfigurado con los binarios de Greengrass. Esto descargará un archivo zip llamado *HelloRobot-setup.zip* (o similar, dependiendo del nombre que proporcionó para su robot en el Paso 9 anterior).
 
-16.  The certificates you just downloaded need to be copied to the physical robot and extracted to a directory on the device.  These instructions use scp to copy files to the device, and ssh to connect to the device.  Both commands are available in Terminal on macOS, and in the Windows PowerShell.  However, availability of these tools may vary, depending on your configuration (particularly on Windows).
+    ! [download_certs] (../../ images / download-certs.jpg)
 
-17. If you're using a Windows computer, skip to the next step.  On macOS, open Terminal by pressing Command-spacebar to launch Spotlight and type "Terminal," then double-click the search result.  Skip the next step regarding Windows, and proceed to step 17.
+16. Los certificados que acaba de descargar deben copiarse en el robot físico y extraerse en un directorio del dispositivo. Estas instrucciones usan *scp* para copiar archivos al dispositivo y *ssh* para conectarse al dispositivo. Ambos comandos están disponibles en Terminal en macOS y en Windows PowerShell. Sin embargo, la disponibilidad de estas herramientas puede variar, dependiendo de su configuración (particularmente en Windows).
 
-18. If you're using Windows, press the Windows key, or click the Windows (Start) button, and type "PowerShell" and press Enter.
+17. Si está utilizando una computadora con Windows, salte al siguiente paso. En macOS, abra la Terminal presionando la barra espaciadora de Comando para iniciar Spotlight y escriba "Terminal", luego haga doble clic en el resultado de la búsqueda. Omita el siguiente con respecto a Windows y continúe con el *paso 17*.
 
-19. On your laptop, navigate to the directory where you downloaded the certificates in Step 13 above. ($ cd Downloads)
+18. Si está utilizando Windows, presione la tecla de Windows o haga clic en el botón de Windows (Inicio), escriba "PowerShell" y presione Entrar.
 
-20. Copy the zip file to your robot.  Replace the file name with the file name of the file you downloaded.  The IP address for your robot was provided with the robot.  You will be prompted for a password.  The password for the pi user is: **robomaker**.
+19. En su computadora portátil, navegue hasta el directorio donde descargó los certificados en el *Paso 13* anterior. ($ cd Descargas)
 
-    ```bash
-    # replace FILE_NAME with the value for your zip file
-    $ scp FILE_NAME.zip pi@<ROBOT_IP_ADDRESS>:/home/pi
-    ```
+20. Copie el archivo zip a su robot. Reemplace el nombre del archivo con el nombre del archivo que descargó. La dirección IP de su robot se proporcionó con el robot. Se te solicitará una contraseña. La contraseña para el usuario pi es: **robomaker**.
 
-21. Connect to the robot, flash the OpenCR board, configure the certificates and start the Greengrass service.  In this step, you use ssh to connect to the robot, and then you unzip the certificates file to the location used by Greengrass.  Finally, you start the Greengrass service.  This enalbes the device to retrieve your robot bundle and deploy it to the robot. As a reminder, the user is **pi** and the password is **robomaker**.
+    `` `fiesta
+    # reemplace FILE_NAME con el valor de su archivo zip
+    $ scp FILE_NAME.zip pi @ <ROBOT_IP_ADDRESS>: / home / pi
+    `` `
 
-    ```bash
-    # use SSH and connect to the robot.  Replace ROBOT_IP_ADDRESS with the IP address for your device
-    $ ssh pi@<ROBOT_IP_ADDRESS>
-    # enter password: robomaker.
-    $ sudo su
-    # enter password: robomaker.
+21. Conéctese al robot, muestre la placa OpenCR, configure los certificados e inicie el servicio AWS Greengrass. En este paso, utilizará *ssh* para conectarse al robot y luego descomprimirá el archivo de certificados en la ubicación utilizada por AWS Greengrass. Finalmente, inicia el servicio AWS Greengrass. Esto permite que el dispositivo recupere su paquete (packege) de robots y lo implemente en el robot. 
 
-    # unzip the certificates into the /greengrass directory.  Replace FILE_NAME with file you copied earlier.
-    $ unzip FILE_NAME.zip -d /greengrass
+Como recordatorio, el usuario es **pi** y la contraseña es **robomaker**.
 
-    # update the CA certificate used by RoboMaker
-    $ cd /greengrass/certs/
+    `` `fiesta
+    # usa SSH y conéctate al robot. Reemplace ROBOT_IP_ADDRESS con la dirección IP de su dispositivo
+    $ ssh pi @ <ROBOT_IP_ADDRESS>
+    # ingrese la contraseña: robomaker.
+    $ sudo su
+    # ingrese la contraseña: robomaker.
+
+    # descomprima los certificados en el directorio /greengrass. Reemplace FILE_NAME con el archivo que copió anteriormente.
+    $ unzip FILE_NAME.zip -d /greengrass
+
+    # actualizar el certificado de CA utilizado por RoboMaker
+    $ cd /greengrass/certs/
     $ wget -O root.ca.pem https://www.amazontrust.com/repository/AmazonRootCA1.pem
 
-    #start the Greengrass service
-    $ /greengrass/ggc/core/greengrassd start
-    ```
+    #comience el servicio Greengrass
+    $ /greengrass/ggc/core/greengrassd start 
+    `` `
 
-22. Create a Fleet and add your robot to the Fleet.  Fleets enable you to manage a group of robots.  For example, you can deploy the same robot application to all robots in a fleet.  Then ensures that all your robots are running the same software.  If you need different robots to run different software, you can create multiple fleets.  In this workshop, you'll create a single fleet that contains a single robot.  In the AWS RoboMaker console, choose *Fleets* under *Fleet managment*.  Click the **Create fleet** button.
+22. **Crea una flota** y agrega tu robot a la flota. Las flotas le permiten administrar un grupo de robots. Por ejemplo, puede implementar la misma aplicación de robot en todos los robots de una flota. Luego se asegura de que todos sus robots estén ejecutando el mismo software. Si necesita diferentes robots para ejecutar un software diferente, puede crear varias flotas. En este taller, creará una flota única que contiene un solo robot. En la consola de AWS RoboMaker, elija *Flotas* en *Administración de Flotas*. Haga clic en el botón **Crear una flota**.
 
-23. Give your fleet an appropriate name and click **Create**.
+23. Dé a su flota un nombre apropiado y haga clic en **Crear**.
 
-24. You now must add your robot to the newly-created fleeet.  On the fleet page for your new fleet, click the **Register new** button under the *Registered robots* section.
+24. Ahora debe agregar su robot a la flota recién creada. En la página de la flota de su nueva flota, haga clic en el botón **Registrar nuevo** en la sección *Robots registrados*.
 
-    ![3_register_new](../../images/register_new.jpg)
+25. Seleccione su robot y elija **Registrar robot**. ¡Felicidades, su robot ahora es miembro de su flota! 
 
-25. Select your robot, and choose **Register robot**.  Congratulations, your robot is now a member of your fleet!
+26. El último paso es implementar nuestra aplicación en nuestra flota. Para comenzar, haga clic en *Implementaciones* en *Administración de flotas* y elija **Crear implementación**.
 
-26. The final step is to deploy our application to our fleet.  To get started, click *Deployments* under *Fleet management*, and choose **Create deployment**.
+27. Elija la aplicación 'Fleet and Robot' (RoboMakerHelloWorldRobot) que creó anteriormente.
 
-27. Choose the Fleet and Robot application (RoboMakerHelloWorldRobot) you created earlier.
+28. Para *Versión de la aplicación de robot*, elija *Crear nuevo* y haga clic en **Crear** en la confirmación. Esto creará una nueva versión para la aplicación de robot HelloRobot_application.
 
-28. For *Robot application version*, choose *Create new*, and click **Create** on the confirmation.  This will create a new version for the HelloRobot_application robot application.
+29. Para *Nombre del paquete*, ingrese `hello_world_robot`. Este es el paquete ROS que contiene el archivo de inicio de nuestro robot.
 
-29. For *Package name*, enter `hello_world_robot`.  This is the ROS package contained in our bundle that contains the startup file for our robot.
+30. Para *Archivo de lanzamiento*, ingrese `deploy_rotate.launch`. Este es el archivo de inicio dentro del paquete anterior. Contiene información sobre los nodos ROS que se iniciarán en el dispositivo.
 
-30. For *Launch file*, enter `deploy_rotate.launch`.  This is the launch file within the above package.  It contains information about the ROS nodes that will be started on the device.
+31. Todos los demás campos pueden usar sus valores predeterminados. Desplácese hasta la parte inferior y elija **Crear**.
 
-31. All other fields can use their default values.  Scroll to the bottom and choose **Create**.
+En unos segundos, su robot comenzará a descargar el paquete de robots. Debido a que esta es la primera vez que esta aplicación se implementa en su robot, el tamaño del paquete es grande (~ 600 MB). El robot tardará unos 15 minutos en descargar y extraer el contenido del robot. Puede seguir el progreso de la implementación en la sección *Estado de los robots*:
 
-Within a few seconds, your robot will begin to download the robot bundle.  Because this is the first time this application is being deployed to your robot, the bundle size is large (~600MB).  It will take about 15 minutes for the robot to download and extract the contents on the robot.  You can follow the deployment progress in the *Robots status* section:
 
-![3_robots_status](../../images/robots-status.png)
 
-When the bundle has been successfully deployed, the robot application will automatically be launched on your robot!
+¡Cuando el paquete se haya implementado con éxito, la aplicación de robot se iniciará automáticamente en su robot! 
+
 
 
 
