@@ -103,6 +103,7 @@ Cuando termine, habrá aprendido a:
     De la **PESTAÑA ROBOT**:
     
     ```bash
+    
     # Reemplace <YOUR_BUCKET_NAME> con su bucket 
     aws s3 cp bundle/output.tar s3://<YOUR_BUCKET_NAME>/dogfinder/output-robot.tar
     ```
@@ -110,6 +111,7 @@ Cuando termine, habrá aprendido a:
    ... y del **SIM TAB**:
     
      ```bash
+     
     # Reemplace <YOUR_BUCKET_NAME> con..
     aws s3 cp bundle/output.tar s3://<YOUR_BUCKET_NAME>/dogfinder/output-sim.tar
     ```
@@ -119,6 +121,7 @@ Cuando termine, habrá aprendido a:
 7. Con los archivos de paquete listos, cree un trabajo de simulación desde la pestaña del sistema operativo. En la raíz del directorio /DogFinder hay un archivo llamado `submit_job.sh`. Haga doble clic en él y reemplace los "outputs" en la parte superior del archivo con las específicas (depósito S3, detalles de VPC, etc.), **y luego guardelos** (save). Hay uno completo en su **CloudFormation> Outputs**. Debería ser similar a esto:
 
     ```bash
+  
      #!/bin/bash
      # Ejemplo: reemplace con el suyo
      export BUCKET_NAME="<YOUR_BUCKET_NAME>"
@@ -139,7 +142,9 @@ Cuando termine, habrá aprendido a:
     Un lanzamiento exitoso devolverá un documento JSON con todos los detalles, incluido un *ARN* con el valor del trabajo de simulación:
 
     ```json
+    
     "arn": "arn:aws:robomaker:us-west-2:123456789012:simulation-job/sim-8rcvbm7p023f",
+    
     ```
 
 9. En este punto, puede abrir una consola de AWS RoboMaker y verificar el estado del trabajo de simulación. Tardará unos minutos en pasar de *Pendiente* a *En ejecución*, pero en ese punto puede abrir las aplicaciones Gazebo y Terminal.
@@ -159,7 +164,7 @@ Cuando termine, habrá aprendido a:
      rostopic pub --once /df_action std_msgs/String 'start'
      ```
 
-     Lo que esto hará es publicar (`pub`) un solo mensaje (` --once`) sobre el tema que escucha su robot (`/ df_action`), y enviará un tipo de string (` std_msgs / String`) con el comando para procesar (`start`). El robot recibirá este comando y comenzará la tarea (girar y procesar imágenes), buscando nuestro objetivo, una imagen de un perro. 🐶 
+     Lo que esto hará es publicar (`pub`) un solo mensaje (`--once`) sobre el tema que escucha su robot (`/ df_action`), y enviará un tipo de string (`std_msgs / String`) con el comando para procesar (`start`). El robot recibirá este comando y comenzará la tarea (girar y procesar imágenes), buscando nuestro objetivo, una imagen de un perro. 🐶 
 
      *Cuando vea que el robot comienza a girar en Gazebo, si la transmisión de video no se actualiza, haga clic en el botón "avance rápido" para avanzar al tiempo real.*
 
