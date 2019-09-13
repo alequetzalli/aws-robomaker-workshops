@@ -6,7 +6,7 @@ weight: 12
 
 
 
-#Taller de limpieza
+# Taller de limpieza
 
 AWS solo cobra por los recursos consumidos. Siga los siguientes pasos para cerrar/eliminar recursos para que no le cobren.
 
