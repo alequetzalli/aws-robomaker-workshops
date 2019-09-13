@@ -31,40 +31,41 @@ Cuando termine, habrá aprendido a:
 
 2. El proyecto con el que trabajaremos se encuentra en GitHub. Debe clonarlo en el entorno Cloud9 para poder trabajar con él. Desde **TAB OS**, ejecute los siguientes comandos para clonar el repositorio:
 
-    ```bash
-    cd ~/environment
+    ```bash
+    cd ~/environment
 
-    # clonar el repositorio DogFinder
-    git clone https://github.com/jerwallace/aws-robomaker-sample-application-dogfinder.git
-    ```
+    # clonar el repositorio DogFinder
+    git clone https://github.com/jerwallace/aws-robomaker-sample-application-dogfinder.git
+    ```
 
 3. Para compilar la aplicación de robot, emita los siguientes comandos desde **ROBOT TAB**:
+    
+    ```bash
+    cd aws-robomaker-sample-application-dogfinder/robot_ws/
 
-    ```bash
-    cd aws-robomaker-sample-application-dogfinder/robot_ws/
+    # Baje los últimos paquetes
+    sudo apt-get update
 
-    # Asegure los últimos paquetes
-    sudo apt-get update
-
-    # Tire de los paquetes ROS (los errores vistos desde el principio se pueden ignorar)
+    # Tire de los paquetes ROS (los errores vistos desde el principio se pueden ignorar)
     # Este paso toma unos 5-10 minutos para completar
-    rosdep install --from-paths src --ignore-src -r -y
+    rosdep install --from-paths src --ignore-src -r -y
 
-    # Construye la aplicación del robot
-    colcon build
-    ```
+    # Construye la aplicación del robot
+    colcon build
+    ```
+    
 
 4. Una vez que se haya completado, cree la aplicación de simulación a partir de **SIM TAB**:
+    
+    ```bash
+    cd aws-robomaker-sample-application-dogfinder/simulation_ws/
 
-    ```bash
-    cd aws-robomaker-sample-application-dogfinder/simulation_ws/ 
+    # rosdep nuevamente - se completará rápidamente 
+    rosdep install --from-paths src --ignore-src -r -y
 
-    # rosdep nuevamente - se completará rápidamente
-    rosdep install --from-paths src --ignore-src -r -y 
-
-    # Cree la aplicación de simulación: se completará rápidamente
-    colcon build
-    ```
+    # Cree la aplicación de simulación: se completará rápidamente
+    colcon build
+    ```
 
     El proceso de creación y dependencia de ROS inicial lleva más tiempo debido a todos los paquetes externos que deben descargarse, compilarse o instalarse. A medida que realiza pequeños cambios en el código e itera, el proceso de compilación se vuelve mucho más rápido. 
     
@@ -73,21 +74,21 @@ Cuando termine, habrá aprendido a:
     Sin embargo, dado que no podemos simular desde el IDE de Cloud9, continúe agrupando (bundling/building) ambas aplicaciones.
 
 5. Para agrupar la aplicación del robot, desde **ROBOT TAB** ejecute lo siguiente:
+ 
+    ```bash
+    #  asegúrese de que colcon bundle sea la última versión. Esto solo debe ejecutarse una vez en el entorno Cloud9
+    sudo pip3 install -U colcon-bundle colcon-ros-bundle
 
-    ```bash
-    # asegúrese de que colcon bundle sea la última versión. Esto solo debe ejecutarse una vez en el entorno Cloud9
-    sudo pip3 install -U colcon-bundle colcon-ros-bundle
-
-    #crear el paquete para la aplicación del robot
-    colcon bundle
-    ``` 
+    # crear el paquete para la aplicación del robot
+    colcon bundle
+    ```
 
     Una vez completado con éxito, haga lo mismo en **SIM TAB**:
 
-    ```bash
-    #crear el paquete para la aplicación de simulación
-    colcon bundle
-    ```
+    ```bash
+    # crear el paquete para la aplicación de simulación
+    colcon bundle
+    ```
 
     Estas dos operaciones crearán archivos tar completos para su uso y los escribirán en cada directorio de paquete respectivo de espacios de trabajo.
 
@@ -100,44 +101,46 @@ Cuando termine, habrá aprendido a:
 6. Con ambas aplicaciones integradas, ahora las copiará a S3 para que puedan ser utilizadas por el servicio de simulación. Para ambas aplicaciones, copie a S3:
 
     De la **PESTAÑA ROBOT**:
-
-    ```bash
-    # Reemplace <YOUR_BUCKET_NAME> con su cubo
-    aws s3 cp bundle/output.tar s3://<YOUR_BUCKET_NAME>/dogfinder/output-robot.tar 
-    ```
+    
+    ```bash
+    # Reemplace <YOUR_BUCKET_NAME> con su bucket 
+    aws s3 cp bundle/output.tar s3://<YOUR_BUCKET_NAME>/dogfinder/output-robot.tar
+    ```
 
    ... y del **SIM TAB**:
-
-    ```bash
-    # Reemplace <YOUR_BUCKET_NAME> con..
-    aws s3 cp bundle/output.tar s3://<YOUR_BUCKET_NAME>/dogfinder/output-sim.tar 
-    ```
+    
+     ```bash
+    # Reemplace <YOUR_BUCKET_NAME> con..
+    aws s3 cp bundle/output.tar s3://<YOUR_BUCKET_NAME>/dogfinder/output-sim.tar
+    ```
 
 7. Con los archivos de paquete listos, cree un trabajo de simulación desde la pestaña del sistema operativo. En la raíz del directorio /DogFinder hay un nombre de archivo.
 
 7. Con los archivos de paquete listos, cree un trabajo de simulación desde la pestaña del sistema operativo. En la raíz del directorio /DogFinder hay un archivo llamado `submit_job.sh`. Haga doble clic en él y reemplace los "outputs" en la parte superior del archivo con las específicas (depósito S3, detalles de VPC, etc.), **y luego guardelos** (save). Hay uno completo en su **CloudFormation> Outputs**. Debería ser similar a esto:
 
-    ```bash
-     #! / bin / bash
-     # Ejemplo: reemplace con el suyo
-     export BUCKET_NAME="<YOUR_BUCKET_NAME>"
-    export SUBNETS="subnet-e2xxx795,subnet-e2xxx123"
-    export SECURITY_GROUP="sg-fe2xxx9a"
-    export ROLE_ARN="arn:aws:iam::1234565789012:role/robomaker_role"
-    ```
+    ```bash
+     #!/bin/bash
+     # Ejemplo: reemplace con el suyo
+     export BUCKET_NAME="<YOUR_BUCKET_NAME>"
+     export SUBNETS="subnet-e2xxx795,subnet-e2xxx123"
+     export SECURITY_GROUP="sg-fe2xxx9a"
+     export ROLE_ARN="arn:aws:iam::1234565789012:role/robomaker_role"
+    ```
+
 
 8. En el **OS TAB**, ejecute el script que creará el robot y las aplicaciones de simulación, luego cree e inicie el trabajo de simulación:
+    
+     ```bash
+    # script en el nivel superior del directorio /DogFinder, ajuste según sea necesario
+    aws-robomaker-sample-application-dogfinder/submit_job.sh
+    ```
 
-    ```bash
-    # script en el nivel superior del directorio /DogFinder, ajuste según sea necesario
-    aws-robomaker-sample-application-dogfinder/submit_job.sh 
-    ```
 
     Un lanzamiento exitoso devolverá un documento JSON con todos los detalles, incluido un *ARN* con el valor del trabajo de simulación:
 
-    ```json
-    "arn": "arn:aws:robomaker:us-west-2:123456789012:simulation-job/sim-8rcvbm7p023f",
-    ```
+    ```json
+    "arn": "arn:aws:robomaker:us-west-2:123456789012:simulation-job/sim-8rcvbm7p023f",
+    ```
 
 9. En este punto, puede abrir una consola de AWS RoboMaker y verificar el estado del trabajo de simulación. Tardará unos minutos en pasar de *Pendiente* a *En ejecución*, pero en ese punto puede abrir las aplicaciones Gazebo y Terminal.
 
@@ -152,9 +155,9 @@ Cuando termine, habrá aprendido a:
 
 10. En este punto, en Gazebo, el robot debe mirar hacia arriba (hacia el norte); la transmisión de video debe mostrar la foto del puente; y los registros (logs) de CloudWatch deben mostrar un mensaje "Esperando para comenzar a encontrar a Fido". Ahora desde la terminal, enviará un mensaje a un tema que el robot está escuchando para comenzar la acción de búsqueda de objetivos:
 
-     ```bash
-     rostopic pub --once /df_action std_msgs/String 'start'
-     ```
+     ```bash
+     rostopic pub --once /df_action std_msgs/String 'start'
+     ```
 
      Lo que esto hará es publicar (`pub`) un solo mensaje (` --once`) sobre el tema que escucha su robot (`/ df_action`), y enviará un tipo de string (` std_msgs / String`) con el comando para procesar (`start`). El robot recibirá este comando y comenzará la tarea (girar y procesar imágenes), buscando nuestro objetivo, una imagen de un perro. 🐶 
 
