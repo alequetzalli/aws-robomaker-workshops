@@ -20,7 +20,7 @@ Si está en un salón de clases, le proporcionaremos un código de crédito que 
 
 Una vez que haya iniciado sesión con éxito en la consola de AWS, inicie el siguiente "stack" de información en la nube para crear los recursos necesarios:
 
-[Launch Stack](https://console.aws.amazon.com/cloudformation/home#/stacks/new?templateURL=https:// s3.amazonaws.com/assets.robomakerworkshops.com/cfn/bootstrap.cfn.yaml&region=us-west-2)
+[Launch Stack](https://console.aws.amazon.com/cloudformation/home#/stacks/new?templateURL=https://s3.amazonaws.com/assets.robomakerworkshops.com/cfn/bootstrap.cfn.yaml&region=us-west-2)
 
 Esto creará:
 
