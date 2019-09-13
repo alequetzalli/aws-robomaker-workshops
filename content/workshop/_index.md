@@ -1,41 +1,39 @@
 ---
-title: "AWS RoboMaker Workshop"
+title: "Workshop de AWS Robomaker"
 chapter: true
 weight: 2
 ---
 
 # Workshop de AWS Robomaker 
 
-En este workshop, te vamos a familiarizar con AWS Robomaker, un servicio que ...
+En este workshop, te vamos a familiarizar con AWS Robomaker, un servicio que le permite desarrollar, simular e implementar fácilmente aplicaciones de robots inteligentes que se integran con los servicios de AWS. Esto incluye servicios de aprendizaje automático de AWS, servicios de monitoreo y servicios de análisis que permiten que un robot transmita datos, navegue, se comunique, comprenda y aprenda. Hoy, también tendrás un robot físico (Robotis TurtleBot 3 Burger) para aprender cómo administrar e implementar aplicaciones de robot en robots de producción con AWS RoboMaker.
 
-you become familiar with AWS RoboMaker, a service that enables you to easily develop, simulate and deploy intelligent robot applications that integrate with AWS services. This includes AWS machine learning services, monitoring services, and analytics services that enable a robot to stream data, navigate, communicate, comprehend, and learn. Today, you will also get hands on with a physical robot (Robotis TurtleBot 3 Burger) to learn how to manage and deploy robot applications to production robots using AWS RoboMaker.
+AWS RoboMaker extiende el software de robótica de código abierto más utilizado **Robot Operating System**, o [ROS] (http://www.ros.org/). Por lo tanto, este taller incluirá referencias a conceptos y herramientas de ROS. Sin embargo, no se requiere experiencia previa en ROS; si desea obtener más información, consulte el [sitio web de ROS] (http://www.ros.org/).
 
-RoboMaker extends the most widely used open-source robotics software framework **Robot Operating System**, or [ROS](http://www.ros.org/). Therefore, this workshop will include references to ROS concepts and tools. No previous ROS experience is required, however, if you would like to learn more check out the [ROS website](http://www.ros.org/).
+**Aquí está nuestra agenda para el día:**
 
-**Here is our agenda for the day:**
+**(1) [Configuración previa al taller] (configuración /)**
 
-**(1) [Pre-workshop Setup](setup/)**
+Comenzaremos configurando su cuenta de AWS para desarrollar aplicaciones de robot con AWS RoboMaker.
 
-We will start by setting up your AWS account to develop robot applications with AWS RoboMaker. 
+**(2) [Hello Robot: Entorno de desarrollo y HelloWorld] (helloworld /)**
 
-**(2) [Hello Robot: Development Environment and HelloWorld](helloworld/)**
+En esta actividad, configurará un entorno de desarrollo (development environment) donde creará, agrupará y simulará una aplicación clásica de "Hello World".
 
-In this activity you will setup a development environment and build, bundle, and simulate a "Hello World" application.
+**(3) [Buscar Fido: API de integración de la nube] (dogfinder /)**
 
-**(3) [Find Fido: Integrating Cloud APIs](dogfinder/)**
+En esta actividad, explorará otros métodos para crear e implementar aplicaciones en el entorno de desarrollo, y verá cómo una aplicación puede interactuar directamente con los servicios de AWS y los nodes/temas de ROS. También veremos cómo se puede usar cualquier servicio de AWS con llamadas al SDK (python boto3 en este caso).
 
-In this activity you will explore other methods for building and deploying applications in the development environment, and see how an application can directly interact with AWS services in a ROS native manner (nodes and topics), and how any AWS service can be used through normal SDK calls (python boto3 in this instance).
+**(4) [Implementar código de Hello World Robot] (desplegar /)** 
 
-**(4) [Deploy Hello World Robot Code](deploy/)**
+En esta actividad, explorará cómo configurar un robot y una flota (grupo de robots), y desplegará (deploy) un paquete de software en su robot físico.
 
-In this activity you will explore how to configure a robot and a fleet, and deploy a software bundle to your physical robot.
+**(5) [Limpieza] (limpieza /)**
 
-**(5) [Clean-up](cleanup/)**
+Lea y complete cada actividad antes de comenzar la siguiente. Si algo no parece correcto, solicite ayuda ya que queremos asegurarnos de que el concepto cubierto se entienda bien. Además, si encuentra un error, envíe una solicitud de extracción.
 
-Please read through and complete each activity before starting the next. If something doesn't look correct, ask for assistance as we want to make sure the concept covered are well understood. Also, if you find a bug - submit a pull request!
+¿Emocionado por construir un robot con AWS? ¡Empecemos! =]
 
-Excited to build a robot using AWS? Let's get started!
-
-**Once all activities are done, please then complete the account cleanup section at the bottom of this page.**
+**Una vez que se hayan realizado todas las actividades, complete la sección de limpieza de la cuenta en la parte inferior de esta página.**
 
 
