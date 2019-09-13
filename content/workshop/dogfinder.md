@@ -164,11 +164,11 @@ En el fondo, se estaban siguiendo los mismos pasos que acaba de completar. Al ha
      rostopic pub --once /df_action std_msgs/String 'start'
      ```
 
-     Lo que esto hará es publicar (`pub`) un solo mensaje (`--once`) sobre el tema que escucha su robot (`/ df_action`), y enviará un tipo de string (`std_msgs / String`) con el comando para procesar (`start`). El robot recibirá este comando y comenzará la tarea (girar y procesar imágenes), buscando nuestro objetivo, una imagen de un perro. 🐶 
+Lo que esto hará es publicar (`pub`) un solo mensaje (`--once`) sobre el tema que escucha su robot (`/ df_action`), y enviará un tipo de string (`std_msgs / String`) con el comando para procesar (`start`). El robot recibirá este comando y comenzará la tarea (girar y procesar imágenes), buscando nuestro objetivo, una imagen de un perro. 🐶 
 
-     *Cuando vea que el robot comienza a girar en Gazebo, si la transmisión de video no se actualiza, haga clic en el botón "avance rápido" para avanzar al tiempo real.*
+**Cuando vea que el robot comienza a girar en Gazebo, si la transmisión de video no se actualiza, haga clic en el botón "avance rápido" para avanzar al tiempo real.**
 
-     Una vez que se ha encontrado un perro, el robot se detendrá e iniciará sesión en **CloudWatch Registros-> Groupos de Registro-> dogfinder_workshop-> TurtleBot3** ¡mensajes informativos sobre cómo encontrar al perro!
+Una vez que se ha encontrado un perro, el robot se detendrá e iniciará sesión en **CloudWatch Registros-> Groupos de Registro-> dogfinder_workshop-> TurtleBot3** ¡mensajes informativos sobre cómo encontrar al perro!
 
 
 11. Una vez que se encuentra la imagen del perro, el robot espera el siguiente comando para comenzar el proceso nuevamente. Puede emitir el comando `rostopic pub` nuevamente en la terminal para iniciar el proceso nuevamente.
