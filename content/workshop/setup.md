@@ -4,40 +4,50 @@ chapter: true
 weight: 3
 ---
 
-# Workshop Setup 
+# Configuración del taller
 
-### Log Into the AWS Console
+### Inicie sesión en la consola de AWS
 
-To complete this workshop you need an **AWS account with administrative permissions**. This is needed to create or modify resources and allow AWS RoboMaker to interact with services on your behalf.
+Para completar este taller, necesita una **cuenta de AWS con permisos administrativos**. Esto es necesario para crear o modificar recursos y permitir que AWS RoboMaker interactúe con los servicios en su nombre.
 
-**Note: We will use us-west-2 (Oregon) for this workshop.**
+**Nota: Utilizaremos us-west-2 (Oregon) para este taller.**
 
-If you are in a classroom setting, we will provide a credit code which you should apply it now. To apply the credit code, select your username from the top right corner of the AWS console and click **My Account**. Next, click on **Credits**. 
-      
-   **Important:** *The credit codes provided will cover the cost of this workshop. However, you must clean-up the resources after the workshop has completed.*
+Si está en un salón de clases, le proporcionaremos un código de crédito que debe aplicar ahora. Para aplicar el código de crédito, seleccione su nombre de usuario en la esquina superior derecha de la consola de AWS y haga clic en ** Mi cuenta **. Luego, haga clic en ** Créditos **.
+      
+   **Importante:** *Los códigos de crédito proporcionados cubrirán el costo de este taller. Sin embargo, debe limpiar los recursos una vez que el taller haya finalizado.*
 
-### Launch Cloudformation Stack
+### Lanzar pila de información en la nube
 
-Once you have successfully signed into the AWS console, launch the following cloudformation stack to create the required resources:
+Una vez que haya iniciado sesión con éxito en la consola de AWS, inicie el siguiente "stack" de información en la nube para crear los recursos necesarios:
 
-[![Launch Stack](../../images/launch-stack.svg)](https://console.aws.amazon.com/cloudformation/home#/stacks/new?templateURL=https://s3.amazonaws.com/assets.robomakerworkshops.com/cfn/bootstrap.cfn.yaml&region=us-west-2)
+[! [Launch Stack] (../../images/launch-stack.svg)] (https://console.aws.amazon.com/cloudformation/home#/stacks/new?templateURL=https:// s3.amazonaws.com/assets.robomakerworkshops.com/cfn/bootstrap.cfn.yaml&region=us-west-2)
 
-This will create: 
+Esto creará:
 
-   - a **VPC** and pair of **subnets** and a **default security group** to run AWS RoboMaker instances in. 
-   - an **S3 bucket** to store your Robomaker assets (such as application bundles).
-   - **Two IAM roles** that you will use for the workshop.
+   - un **VPC** y un par de **subnets** y un **grupo de seguridad default** para ejecutar instancias de AWS RoboMaker.
+   - un **S3 bucket** para almacenar tus assets de Robomaker (como paquetes de aplicaciones).
+   - **Dos roles de IAM** que usarás para el taller.
 
-Once the stack has launched, take note of the **outputs**. We will use these values throughout the workshop. 
+Una vez que se haya lanzado el nuevo "stack", tome nota de los **outputs**. Utilizaremos estos valores durante todo el taller.
 
-### Create Kinesis Video
+### Crear video de Kinesis
 
-Finally, open the console for [Kinesis Video Streams](https://console.aws.amazon.com/kinesisvideo/home) and create a new stream with the following configuration. When creating the stream, **uncheck "Use default settings"**:
+Finalmente, abra la consola para [Kinesis Video Streams] (https://console.aws.amazon.com/kinesisvideo/home) y cree un nuevo stream con la siguiente configuración. Al crear el stream, **desmarque "Usar la configuración predeterminada"**:
 
-   - **Stream Name**: *roboMaker_TurtleBot3*
-   - **Data Retention Period**: *1 hour*
+   - **Nombre de la transmisión**: *roboMaker_TurtleBot3*
+   - **Período de retención de datos**: *1 hora*
 
-![kinesis-streams](../../images/kinesis-streams.png)    
-*Note the Stream name (`roboMaker_TurtleBot3`) for later use.*
+! [kinesis-streams] (../../ images / kinesis-streams.png)
+*Anota el nombre del stream (`roboMaker_TurtleBot3`) para su uso futuro.*
 
-**Congratulations!** You have completed the setup process of the workshop. 
+** ¡Felicidades! **Has completado el proceso de configuración del taller.**
+
+
+
+
+
+
+
+
+
+
