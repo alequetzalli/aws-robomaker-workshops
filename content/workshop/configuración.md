@@ -40,7 +40,7 @@ Finalmente, abra la consola para [Kinesis Video Streams](https://console.aws.ama
 
 *Anota el nombre del stream (`roboMaker_TurtleBot3`) para su uso futuro.*
 
-**¡Felicidades! **Has completado el proceso de configuración del taller.**
+**¡Felicidades! Has completado el proceso de configuración del taller.**
 
 
 
