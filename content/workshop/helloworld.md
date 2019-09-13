@@ -4,64 +4,64 @@ chapter: true
 weight: 4
 ---
 
-# Development environment and HelloWorld
 
-In this activity, you will setup a AWS RoboMaker development environment to quickly compile and run a "Hello World" ROS application. Once complete, you will have learned:
 
-* How to navigate the AWS RoboMaker console and access development environment and simulation jobs
-* Basic ROS workspace layout and build/bundle tasks
-* How to submit and interact with a simulation job
 
-## Activity tasks
+# Entorno de desarrollo y HelloWorld app
 
-1. Open a new tab to the AWS RoboMaker console (*Services->RoboMaker->right-click->new tab*)
+En esta actividad, configurará un entorno de desarrollo de AWS RoboMaker para compilar y ejecutar rápidamente una aplicación ROS "Hello World". Una vez completado, habrás aprendido:
 
-2. Create a development environment (*Development->Development environments->Create environment*) and complete the following:
+* Cómo navegar por la consola de AWS RoboMaker y acceder al entorno de desarrollo y a los trabajos de simulación
+* Diseño básico del espacio de trabajo ROS y tareas de compilación / paquete
+* Cómo enviar e interactuar con un trabajo de simulación
 
-    * Name: `workshop` or something descriptive
-    * Instance type: `m4.large`
-    * Choose the VPC (default), and a subnet for your development environment 
-    * Click **Create**
+## Tareas de actividad
 
-3. This opens the environment's detail page, click *Open environment*, which will open a new browser tab with the Cloud9 IDE.
+1. Abra una pestaña nueva en la consola de AWS RoboMaker (*Servicios-> RoboMaker-> clic derecho-> pestaña nueva*)
 
-    *This may take a few minutes to complete, but when the creation process has completed, you will see something similar to this:*
+2. Cree un entorno de desarrollo (*Desarrollo-> Entornos de desarrollo-> Crear entorno*) y complete lo siguiente:
 
-    ![1_cloud9](../../images/1_cloud9.png)
+    * Nombre: `taller` o algo descriptivo
+    * Tipo de instancia: `m4.large`
+    * Elija el default VPC y una subred para su entorno de desarrollo
+    * Haga clic en **Crear** 
 
-    The *Welcome page* provides helpful information to get started, but for now we are not going to use it, so click the *X* on the tab to close.The IDE is broken down into four sections:
+3. Esto abre la página de detalles del entorno, haga clic en *Abrir entorno*, que abrirá una nueva pestaña del navegador con el IDE de Cloud9.
 
-    ![1_c9_layout](../../images/1_c9_layout.png)
+*Esto puede tardar unos minutos en completarse...*
+  
 
-    - (1) The AWS RoboMaker menu provide quick access to common actions. It is updated when the `roboMakerSettings.json` is modified later in this task.
-    - (2) Any files and folders will reside here, and can be selected and double-clicked to open in the editor pane (#4).
-    - (3) The lower section is an adjustable pane for creating or monitoring command line operations. ROS developers work in this area to build, test, and interact with local code.
-    - (4) This is the main editor pane.
+La *Página de bienvenida* proporciona información útil para comenzar, pero por ahora no la vamos a usar, así que haga clic en la *X* en la pestaña para cerrar. El IDE se divide en cuatro secciones:
 
-4. Delete the `roboMakerSettings.json` file by right-clicking on it and selecting *Delete*->Yes. We will use the example applications file to complete.
+    - (1) El menú de AWS RoboMaker proporciona acceso rápido a acciones comunes. Se actualiza cuando el `roboMakerSettings.json` se modifica más adelante en esta tarea.
+    - (2) Todos los archivos y folders residirán aquí, y se pueden seleccionar y hacer doble clic para abrirlos en el panel del editor (# 4).
+    - (3) La sección inferior es un panel ajustable para crear o monitorear operaciones de línea de comando. Los desarrolladores de ROS trabajan en esta área para construir, probar e interactuar con el código local.
+    - (4) Este es el panel principal del editor.
 
-5. Next, use the menu to download and create the HelloWorld application by clicking *Resources->Download Samples->1. Hello World*. This will download, unzip, and load the readme file for the Hello World application.
+4. Elimine el archivo `roboMakerSettings.json` haciendo clic derecho sobre él y seleccionando *Eliminar* -> Sí. Usaremos el archivo de aplicaciones de ejemplo para completar. 
 
-6. While the application files are downloading, in another window, click on **AWS CloudFormation** and select the stack that you launched in the setup steps. In the **Outputs** you will find two role ARNs to use with RoboMaker. For this exercise, we will be using the *simulation role* which can be found in the key value pair titled 'SimulationRole' and the S3 bucket that was created. They should look similar to this:
+5. Luego, use el menú para descargar y crear la aplicación *HelloWorld* haciendo clic en *Recursos-> Descargar muestras-> 1. Hello World*. Esto descargará, descomprimirá y cargará el archivo README para la aplicación Hello World.
+
+6. Mientras se descargan los archivos de la aplicación, en otra ventana, haga clic en **AWS CloudFormation** y seleccione la pila que inició en los pasos de configuración. En **Outputs** encontrará dos ARN roles para usar con RoboMaker. Para este ejercicio, utilizaremos el *rol de simulación* que se puede encontrar en el par de valores clave titulado 'SimulationRole' y el depósito S3 que se creó. Deberían ser similares a esto:
 
     ```text
     arn:aws:iam::123456789012:role/robomaker-simulation-role
-    <your-stack-name>-assets
+    <su-stack-name>-assets
     ```
-  
-    Copy the role ARN and the S3 bucket name and head back to your *RoboMaker Cloud9* editor.
+  
+    Copie el rol ARN y el nombre del depósito S3 y regrese a su editor *RoboMaker Cloud9*. 
 
-7. For this project, we are going to use the menu option to build, bundle and simulate. Close the `README.md` file in the editor pane, then open the *HelloWorld* folder (double-click), and double-click the `roboMakerSettings.json` file to edit.
+7. Para este proyecto, vamos a utilizar la opción de menú para compilar, agrupar y simular. Cierre el archivo `README.md` en el panel del editor, luego abra la carpeta *HelloWorld* (haga doble clic) y haga doble clic en el archivo `roboMakerSettings.json` para editar. 
 
-    This file contains all the settings to build the menu above. You will use these default settings, but need to complete the S3 bucket and IAM Role ARN  sections for your account.
+    Este archivo contiene todas las configuraciones para construir el menú de arriba. Utilizará estas configuraciones predeterminadas, pero debe completar las secciones de cubo S3 y de ARN de rol de IAM para su cuenta.
 
-9. Scroll down to the `simulation` section and replace the `output location` with your S3 bucket name. Below that, replace the `<your ... role ARN>` with the full ARN saved from the previous step. Save the file. This will refresh the menu options to use the new values.
+9. Desplácese hacia abajo hasta la sección `simulación` y reemplace la `ubicación de salida` con su nombre de depósito S3. Debajo de eso, reemplace el <<your ... role ARN>> con el ARN completo guardado del paso anterior. Guarda el archivo. Esto actualizará las opciones del menú para usar los nuevos valores.
 
-    Just above the simulation attribute, also replace the s3Bucket entries for `robotApp` and `simulationApp` to match what was created in CloudFormation.
+Justo encima del atributo de simulación, también reemplace las entradas (outputs) de s3Bucket para `robotApp` y` simulationApp` para que coincida con lo que se creó en CloudFormation.
 
-    *There are three locations to enter the S3 bucket details. If you receive an error when running, check to make sure all three are complete and the role ARN has been entered.*
+*Hay tres ubicaciones para ingresar los detalles del depósito S3. Si recibe un error durante la ejecución, verifique que los tres estén completos y que se haya ingresado el rol ARN.*
 
-    When done, the modified sections should look similar to this:
+Cuando termine, las secciones modificadas deberían ser similares a esta:
 
     ```json
        }, {
@@ -115,13 +115,14 @@ In this activity, you will setup a AWS RoboMaker development environment to quic
        },
     ```
 
-10. Next, update the hello world simulation application to use TurtleBot3 'waffle_pi' instead of 'burger'. The TurtleBot3 Waffle Pi has a camera module, which we will use as part of this activity. To do this, open the following file: 
+
+10. A continuación, actualice la aplicación de simulación *hello world* para usar TurtleBot3 'waffle_pi' en lugar de 'burger'. TurtleBot3 Waffle Pi tiene un módulo de cámara, que utilizaremos como parte de esta actividad. Para hacer esto, abra el siguiente archivo:
 
     ```text
      HelloWorld/simulation_ws/src/hello_world_simulation/launch/empty_world.launch
     ```
     
-    Then, add this line in the TurtleBot3 include block: `<arg name="model" value="waffle_pi" />`. After complete, the file should look like this:
+Luego, agregue esta línea en el bloque de inclusión TurtleBot3: `<arg name =" model "value =" waffle_pi "/>`. Después de completar, el archivo debería verse así:
 
     ```xml
       <launch>
@@ -146,74 +147,68 @@ In this activity, you will setup a AWS RoboMaker development environment to quic
         </include>
       </launch>
     ```
-    
 
-11. Now, use the menu to build and bundle both the robot and simulation application. Click *Run->Build->HelloWorld Robot* to start the compile for the robot application. This will take approximately 1-2 minutes as it needs to download and compile the code. When you see the successful process complete message `Process exited with code: 0`, use the same command to build the *HelloWorld Simulation*.
+11. Ahora, use el menú para construir y agrupar tanto el robot como la aplicación de simulación. Haga clic en *Ejecutar-> Construir-> HelloWorld Robot* para iniciar la compilación de la aplicación del robot. Esto tomará aproximadamente 1-2 minutos ya que necesita descargar y compilar el código. Cuando vea el mensaje de proceso completo exitoso `El proceso salió con el código: 0`, use el mismo comando para construir la *Simulación HelloWorld*. 
 
-12. At this point both applications have been compiled locally. To run as a AWS RoboMaker simulation job, you also need to bundle them. In this step, the application along with all operating system dependencies are packaged in a bundle which is sort of like a container. After the process completes, a compressed output file will be generated locally. Similar to the build steps above, you need to bundle both the robot and simulation application. To do this, select *Run->Bundle->HelloWorld Robot*. **This will take 10-15 minutes or so to complete for both, and you may see Cloud9 warnings about low memory, which you can disregard.**
+12. En este punto, ambas aplicaciones se han compilado localmente. Para ejecutarse como un trabajo de simulación de AWS RoboMaker, también debe agruparlos. En este paso, la aplicación junto con todas las dependencias del sistema operativo se empaquetan en un paquete que es como un contenedor. Una vez que se completa el proceso, se generará un archivo de salida comprimido localmente. Similar a los pasos de compilación anteriores, debe agrupar tanto el robot como la aplicación de simulación. Para hacer esto, seleccione *Ejecutar (Run)-> Paquete (Bundle)-> HelloWorld Robot*. **Esto tomará entre 10 y 15 minutos más o menos para completar ambos, y es posible que vea advertencias de Cloud9 sobre poca memoria, que puede ignorar.**
 
-    While these are building, take a moment to review the JSON file for the simulation area. Here, you can see how the launch configs reference the package name (hello_world_robot or hello_world_simulation) and the specifc launch file to use (rotate.launch and empty_world.launch respectively). 
+Mientras se están creando, tómese un momento para revisar el archivo JSON para el área de simulación. Aquí, puede ver cómo las configuraciones de lanzamiento hacen referencia al nombre del paquete (hello_world_robot o hello_world_simulation) y al archivo de lanzamiento específico a usar (rotate.launch y empty_world.launch respectivamente).
 
-13. When both bundle operations are completed, launch a simulation job (*Run->Launch Simulation->HelloWorld*). This will do the following:
+13. Cuando se completen ambas operaciones de paquete, inicie un trabajo de simulación (*Ejecutar-> Iniciar simulación-> HelloWorld*). Esto hará lo siguiente:
 
-    * Upload the robot and simulation application bundles (approximately 1.2GiB) to the S3 bucket
-    * Create a robot application and simulation application which reference the uploaded bundles
-    * Start the simulation job in your defined VPC
+    * Cargar el robot y los paquetes de aplicaciones de simulación (aproximadamente 1.2GiB) en el cubo S3
+    * Crear una aplicación de robot y una aplicación de simulación que hagan referencia a los paquetes cargados
+    * Iniciar el trabajo de simulación en su VPC definida
 
-    *Note: If you run into an error at this step, double check your `roboMakerSettings.json` file and ensure that all S3 references and the IAM role has been changed to the values from your CloudFormation outputs.
+    *Nota: Si se encuentra con un error en este paso, verifique su archivo `roboMakerSettings.json` y asegúrese de que todas las referencias de S3 y el rol de IAM hayan cambiado a los valores de sus salidas de CloudFormation.*
 
-14. Open the AWS RoboMaker console and click on simulation jobs. You should see your job in a *Running* status. Click on the job id to see the values that were passed as part of the job. This view provides all the details of the job and access to tools which you will use in a moment.
+14. Abra la consola de AWS RoboMaker y haga clic en trabajos de simulación. Debería ver su trabajo en un estado *En ejecución*. Haga clic en la identificación del trabajo para ver los valores que se pasaron como parte del trabajo. Esta vista proporciona todos los detalles del trabajo y el acceso a las herramientas que usará en un momento.
 
-     If the status shows Failed, it is most likely a typo or configuration issue to resolve. In the *Details* section, look for the *Failure reason* to determine what took place so you can correct.
+     Si el estado muestra Fallido, lo más probable es que se deba resolver un error tipográfico o de configuración. En la sección *Detalles*, busque el *Motivo de falla* para determinar qué ocurrió para poder corregirlo.
+     
+     
+15. A partir de los detalles del trabajo de simulación, lanzaremos un par de herramientas para interactuar con el robot. Primero, haga clic en Gazebo, que abrirá una ventana emergente para la aplicación. Este es un cliente que proporciona un visión del mundo virtual.
 
-15. From the simulation job details, we will launch a couple tools to interact with the robot. First, click on Gazebo, which will launch a pop-up window for the application. This is a client that provides a view into the virtual world.
 
-     ![1_gazebo](../../images/1_gazebo.png)
+     Usando su mouse o trackpad, haga clic en la ventana principal. Consulte [esta página](http://gazebosim.org/tutorials?tut=guided_b2&cat=) para obtener más detalles y cómo navegar (cerca de la parte inferior de la página).
 
-     Using your mouse or trackpad, click into main window. Please refer to [this page](http://gazebosim.org/tutorials?tut=guided_b2&cat=) for more details and how to navigate (near the bottom of the page).
+     Cuando se acerca, verá que el robot gira lentamente en sentido contrario a las agujas del reloj en la misma posición. Esto se debe al archivo `rotate.launch` enviado como parte de la aplicación del robot.
 
-     When zoomed in, you will see robot turning slowing counter-clockwise in the same position. This is due to the `rotate.launch` file sent as the part of the robot application.
+     Deje esta ventana abierta por ahora y regrese a la página de trabajo de simulación. Aquí, haga clic en **Rviz**, que abrirá una nueva ventana. :bulb: si es posible, agrande la ventana de su computadora portátil para una mejor visibilidad.
 
-     Leave this window open for now and go back to the simulation job page. Here, click on Rviz, which will open a new window. :bulb: If possible, make the window larger on your laptop for better visibility.
+     [Rviz](http://wiki.ros.org/rviz) es una herramienta de visualización 3D para ROS. Proporciona información sobre el estado del robot y el mundo que lo rodea (virtual o real). Para que su robot virtual funcione correctamente, debemos apuntar a un componente de robot. Haga clic en la ventana y luego haga clic en el "mapa" junto a *Fixed Frame* (Marco Fijo).
 
-     [Rviz](http://wiki.ros.org/rviz) is a 3D visualization tool for ROS. It provides information on the robot state and world around it (virtual or real). To get your virtual robot properly working, we need to point to a robot component. Click in the window, and then click on the "map" next to Fixed Frame:
+     En el menú desplegable, seleccione `base_footprint` y luego haga clic en el espacio en blanco a continuación. Esto debería corregir el mensaje *Estado global: error*. A continuación, seleccione el botón *Agregar* en la esquina inferior izquierda y desde *By display type*, seleccione *Cámara* y haga clic en *OK*. Observe el patrón de cuadrícula en la ventana de la cámara. Para ver lo que "ve" el robot virtual, haga clic en el triángulo al lado de Cámara para girarlo hacia abajo, luego haga clic en el campo *Image Topic* (Tema de Imagen). Debe haber un solo nombre de *name/camera/rgb/image_raw* para que seleccione.
 
-     ![1_rviz_start](../../images/1_rviz_start.png)
+     Como en el caso anterior, una vez que seleccione, haga clic fuera de esta área (o haga clic en *Estado global: OK*) para que surta efecto. La ventana de la cámara debería cambiar a una vista gris de dos tonos. Esto es correcto ya que el mundo en el que se lanzó está realmente vacío. Es hora de agregar algo.
 
-     From the drop-down, select `base_footprint` and then click in the whitespace below. This should fix the *Global Status: Error* message. Next, select the Add button in the lower left, and from the *By display type*, select *Camera* and click *OK*. Notice the grid pattern in the camera window. To view what the virtual robot "sees", click the triangle next to Camera to twirl it down, then click into the Image Topic field. There should be a single topic name /camera/rgb/image_raw for you to select:
+15. Vuelva a la ventana de **Gazebo** y seleccione el menú de objeto (cubo, bola o cilindro) y luego, dentro de la vista del mundo, arrastre su objeto cerca del robot y haga clic para colocarlo. Haga esto un par de veces para agregar objetos a su alrededor.
 
-     ![1_rviz_camera](../../images/1_rviz_camera.png)
+     Y ahora vuelve a **Rviz** y mira la ventana de la cámara. ¡Verás pasar los objetos por delante mientras el robot gira! Si puede, coloque ambas ventanas para que pueda ver el robot en Gazebo y la vista de la cámara desde Rviz:
 
-     Like above, once select click outside this area (or click on *Global Status: OK*) to have it take effect. The camera window should change to a two-tones gray view. This is correct as the world you launched in is truly empty. It's time to add something(s).
+16. Para el ejemplo de Hello World, estas son las operaciones básicas del robot y el mundo. Antes de pasar a la siguiente actividad, echemos un vistazo a algunas de las otras cosas que hizo esta simulación.
 
-15. Navigate back to the Gazebo window and select on object (cube, ball, or cylinder) menu and then inside the world view drag you object near the robot and click to place. Do this a couple times to add objects around it.
+17. Primero, cierre las ventanas **Gazebo** y **Rviz** y vuelva a la página de *Simulación de Trabajos*. Desde la simulación, en acciones, seleccione *Cancelar-> Sí, Cancelar* para detener la simulación. Esto finaliza con gracia la simulación y detiene las cargas. Regrese a la lista de trabajos de simulación y debería ver el trabajo en estado *Cancelado*. Vuelva a hacer clic en el trabajo y bajo *Detalles* haga clic en el enlace *Destino de salida de trabajo de simulación*. Esto abre una nueva pestaña para S3 donde esta es la carpeta correspondiente a la ID de trabajo de simulación.
 
-     ![1_gazebo_objects](../../images/1_gazebo_objects.png) 
+     Haga clic en la carpeta y luego en la carpeta con fecha / hora estampada. Aquí tendrá tres conjuntos de salidas. La carpeta `gazebo-logs` contiene los archivos de registro de la salida de las aplicaciones de simulación, mientras que` ros-logs` contiene la salida de las aplicaciones del robot. Los 'ros-bags' contendrán grabaciones de todos los eventos que pueden usarse como entrada de simulación para otras tareas. Para la aplicación de simulación o robot, descargue uno de los archivos y ábralo localmente. Esto le dará una idea de qué tipos de eventos se guardan para su revisión o uso futuro.
 
-     And now go back to Rviz and look at the camera window. You will see the objects pass in front as the robot turns! If you can, position both windows so you can see the robot in Gazebo and the camera view from Rviz:
+18. S3 contiene los archivos de registro de la salida de las aplicaciones, pero también puede obtenerlos de CloudWatch Logs(registros). Navegue a la consola de CloudWatch y seleccione *Registro*s desde la izquierda. Aquí verá los nombres de un grupo de registro `/aws/robomaker/SimulationJobs`. Haga clic en eso y luego haga clic en su ID de simulación para *RobotApplicationLogs* o *SimulationApplicationLogs* y vea las entradas. 
 
-     ![1_both_apps](../../images/1_both_apps.png)
 
-16. For the Hello World example, these are the basic operations of the robot and world. Before moving onto the next activity, let's take a look at some of the other things this simulation did.
 
-17. First, close the Gazebo and Rviz windows and navigate back to the Simulation jobs page. From the simulation, under actions select *Cancel->Yes, Cancel* to stop the simulation. This gracefully terminates the simulation and stops charges. Go back to the list of simulation jobs and you should see the job in a *Cancelled* state. Click back into the job again, and under *Details* click on the *Simulation job output destination* link. This opens a new tab to S3 where this is folder corresponding to the simulation job ID. 
+## Resumen de actividad
 
-     Click into the folder, and then into the date/time stamped folder. Here you will three sets of outputs. The `gazebo-logs` folder contains the log files of the simulation applications output, while the `ros-logs` contains the robot applications output. The `ros-bags` will contain recordings of all events that can be used as simulation input for other tasks. For the simulation or robot application download one of the files and open locally. This will give you an idea of what types of events are saved for review or future use.
+En esta actividad, ha trabajado con 2 de los principales productos de AWS RoboMaker: **entorno de desarrollo** y **trabajos de simulación**. El entorno de desarrollo proporciona un IDE en la nube basado en la web con todos los principales paquetes y dependencias ROS integrados. Puede crear tantos como sea necesario y, cuando no esté en uso, el IDE se suspenderá automáticamente para reducir los costos. Aquí puede trabajar para crear, probar y construir/agrupar (build/bundle) su código.
 
-18. S3 contains the log files of the output of the applications but you can also get those from CloudWatch Logs.  Navigate to the CloudWatch console and select Logs from the left. In here you will see a Log Group names `/aws/robomaker/SimulationJobs`. Click on that, and then click on your simulations ID for either RobotApplicationLogs or SimulationApplicationLogs and view the entries.
+Cuando está listo para la prueba, la creación del *trabajo de Simulación* automatiza el proceso de peinar las dos aplicaciones, proporciona una interacción gráfica basada en la web con su robot y el mundo simulado, y registra la salida de todos los componentes de múltiples maneras.
 
-## Activity wrap-up
+Algunos de los beneficios clave del uso de AWS RoboMaker incluyen:
 
-In this activity, you have worked two of the main AWS RoboMaker products: Development environment and Simulation jobs. The Development environment provides a web-based cloud IDE with all main ROS packages and dependencies built in. You can create as many as needed, and when not in use, the IDE will automatically suspend itself to reduces costs. Here you can work to create, test and build/bundle your code.
+* No se limita a los recursos locales: al usar la nube, AWS RoboMaker proporciona recursos según sea necesario y solo cuando los necesite.
+* Desarrolle en cualquier lugar en cualquier dispositivo basado en la web: al transmitir la salida de aplicaciones gráficamente intensivas como Gazebo en lugar de procesarla localmente, puede usar una computadora de escritorio, una computadora portátil o incluso una tableta para desarrollar e interactuar con simulaciones.
+* Escala: esta actividad mostró una sola simulación de una aplicación. Si se necesita probar un robot en diferentes entornos (simulaciones), o probar diferentes iteraciones de aplicaciones de robots en un solo entorno simulado, ambos se pueden escalar a múltiples trabajos de simulación.
 
-When ready to test, the creation of Simulation job automates the process of combing the two applications, provides a web-based graphical interaction with your robot and the simulated world, and logs the output of all components in multiple manners.
+### Recordatorio de limpieza
 
-Some of the key benefits of using AWS RoboMaker include:
+En esta actividad, creó un *entorno de Desarrollo*, *registros de CloudWatch* y *S3 buckets* que inciden en el costo. Si **no continúa** con las siguientes secciones del taller, recuerde ir a los [pasos de limpieza](https://www.robomakerworkshops.com/workshop/cleanup/) y elimine estos recursos para detener cualquier costo potencial por ocurrir.
 
-* Not limited to local resources - By using the cloud, AWS RoboMaker provides resources as needed and only for when you need them.
-* Develop anywhere on any web-based device - By streaming the output of graphically intensive applications such as Gazebo instead of processing it locally, you can use a desktop, laptop, or even tablet to develop and interact with simulations.
-* Scale - This activity showed a single simulation of an application. If the need to test a robot against different environments (simulations) is needed, or testing different iterations of robot applications against a single simulated environment, both of these can be done by scaling to multiple simulation jobs.
-
-### Clean-up Reminder
-
-In this activity, you created a Development environment, CloudWatch logs, and S3 objects that incure cost. If you **are not continuing** on with the next sections of the workshop, remember to go to the [clean-up steps](https://www.robomakerworkshops.com/workshop/cleanup/) and remove these resources to stop any potential costs for occurring.
