@@ -26,16 +26,16 @@ Esta actividad cubre los pasos necesarios para preparar un robot físico para re
 
 2. Para esta actividad, necesita el ARN para el **rol de implementación** (deployment role) que se creó en el template de CloudFormation. Mire en la pestaña **Outputs** y copie el valor del ARN, que debería ser similar a esto:
 
-    ```text
-    arn:aws:iam::123456789012:role/robomaker-deployment-role
-    ```
+ ```text
+    arn:aws:iam::123456789012:role/robomaker-deployment-role
+    ```
 
 3. Usando el ARN que encontró en el paso anterior, ejecute el siguiente comando para permitir que AWS Greengrass lo use para la implementación:
 
-    ```bash
-    # reemplaza DEPLOYMENT_ROLE_ARN con tu ARN
-    aws greengrass associate-service-role-to-account --role-arn $DEPLOYMENT_ROLE_ARN
-    ```
+    ```bash
+    # reemplaza DEPLOYMENT_ROLE_ARN con tu ARN
+    aws greengrass associate-service-role-to-account --role-arn $DEPLOYMENT_ROLE_ARN
+    ```
 
 4. El paquete que usaremos para este paso ha sido creado previamente, simplemente debe decirle a AWS RoboMaker dónde encontrarlo. Abra la consola de AWS RoboMaker y revise las aplicaciones de robot *(Desarrollo-> Aplicaciones de robot)*. Haga clic en el nombre de la aplicación del robot, *RoboMakerHelloWorldRobot*, para revisar sus detalles.
 
@@ -45,16 +45,17 @@ Esta actividad cubre los pasos necesarios para preparar un robot físico para re
 
 7. Copie el siguiente archivo *tar* del robot en su S3 bucket.
 
-    ```text
-    aws s3 cp s3://robomakerbundles/turtlebot3-burger/hello-world/robot-armhf.tar s3://<YOUR_BUCKET_NAME>/hello-world/robot-armhf.tar 
-    ```
+    ```text
+    aws s3 cp s3://robomakerbundles/turtlebot3-burger/hello-world/robot-armhf.tar s3://<YOUR_BUCKET_NAME>/hello-world/robot-armhf.tar
+    ```
 
 8. En el cuadro de texto del archivo de fuente ARMHF, pegue la nueva ubicación S3 para el paquete ARMHF:
 
-    ```text
-     s3://<YOUR_BUCKET_NAME>/hello-world/robot-armhf.tar 
-    ```
 
+    ```text
+    s3://<YOUR_BUCKET_NAME>/hello-world/robot-armhf.tar
+    ```
+    
     Haga clic en **Crear**.
 
 9. Antes de que AWS RoboMaker pueda desplegarse en un robot físico, debe configurar su robot. Debe crear certificados de autenticación que permitan que el dispositivo se comunique de forma segura con AWS. También debe registrar su robot en AWS RoboMaker. Para comenzar con esta tarea, haga clic en el enlace de **robots** bajo la seccion de *Administración de flotas*.
@@ -81,32 +82,33 @@ Esta actividad cubre los pasos necesarios para preparar un robot físico para re
 
 20. Copie el archivo zip a su robot. Reemplace el nombre del archivo con el nombre del archivo que descargó. La dirección IP de su robot se proporcionó con el robot. Se te solicitará una contraseña. La contraseña para el usuario pi es: **robomaker**.
 
-    ```bash
-    # reemplace FILE_NAME con el valor de su archivo zip
-    $ scp FILE_NAME.zip pi@<ROBOT_IP_ADDRESS>:/home/pi
-    ```
+    ```bash
+    # reemplace FILE_NAME con el valor de su archivo zip
+    $ scp FILE_NAME.zip pi@<ROBOT_IP_ADDRESS>:/home/pi
+    ```
 
 21. Conéctese al robot, muestre la placa OpenCR, configure los certificados e inicie el servicio AWS Greengrass. En este paso, utilizará *ssh* para conectarse al robot y luego descomprimirá el archivo de certificados en la ubicación utilizada por AWS Greengrass. Finalmente, inicia el servicio AWS Greengrass. Esto permite que el dispositivo recupere su paquete (packege) de robots y lo implemente en el robot. 
 
 Como recordatorio, el usuario es **pi** y la contraseña es **robomaker**.
+    
+    ```bash
+    # usa SSH y conéctate al robot. Reemplace ROBOT_IP_ADDRESS con la dirección IP de su dispositivo
+    $ ssh pi@<ROBOT_IP_ADDRESS>
+    # enter password: robomaker.
+    $ sudo su
+    # enter password: robomaker.
 
-    ```bash
-    # usa SSH y conéctate al robot. Reemplace ROBOT_IP_ADDRESS con la dirección IP de su dispositivo
-    $ ssh pi @ <ROBOT_IP_ADDRESS>
-    # ingrese la contraseña: robomaker.
-    $ sudo su
-    # ingrese la contraseña: robomaker.
+    # descomprima los certificados en el directorio /greengrass. Reemplace FILE_NAME con el archivo que copió anteriormente.
+    $ unzip FILE_NAME.zip -d /greengrass
 
-    # descomprima los certificados en el directorio /greengrass. Reemplace FILE_NAME con el archivo que copió anteriormente.
-    $ unzip FILE_NAME.zip -d /greengrass
-
-    # actualizar el certificado de CA utilizado por RoboMaker
-    $ cd /greengrass/certs/
+    # actualizar el certificado de CA utilizado por RoboMaker 
+    $ cd /greengrass/certs/
     $ wget -O root.ca.pem https://www.amazontrust.com/repository/AmazonRootCA1.pem
 
-    #comience el servicio Greengrass
-    $ /greengrass/ggc/core/greengrassd start 
-    ```
+    # comience el servicio Greengrass
+    $ /greengrass/ggc/core/greengrassd start
+    ```
+    
 
 22. **Crea una flota** y agrega tu robot a la flota. Las flotas le permiten administrar un grupo de robots. Por ejemplo, puede implementar la misma aplicación de robot en todos los robots de una flota. Luego se asegura de que todos sus robots estén ejecutando el mismo software. Si necesita diferentes robots para ejecutar un software diferente, puede crear varias flotas. En este taller, creará una flota única que contiene un solo robot. En la consola de AWS RoboMaker, elija *Flotas* en *Administración de Flotas*. Haga clic en el botón **Crear una flota**.
 
