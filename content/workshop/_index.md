@@ -12,7 +12,7 @@ AWS RoboMaker extiende el software de robótica de código abierto más utilizad
 
 **Aquí está nuestra agenda para el día:**
 
-**(1) [Configuración previa al taller] (configuración /)**
+**(1) [Configuración previa al taller]** (https://github.com/jerwallace/aws-robomaker-workshops/blob/master/content/workshop/setup.md /)
 
 Comenzaremos configurando su cuenta de AWS para desarrollar aplicaciones de robot con AWS RoboMaker.
 
@@ -28,7 +28,7 @@ En esta actividad, explorará otros métodos para crear e implementar aplicacion
 
 En esta actividad, explorará cómo configurar un robot y una flota (grupo de robots), y desplegará (deploy) un paquete de software en su robot físico.
 
-**(5) [Limpieza](cleanup.md /)**
+**(5) [Limpieza] (cleanup.md /)**
 
 Lea y complete cada actividad antes de comenzar la siguiente. Si algo no parece correcto, solicite ayuda ya que queremos asegurarnos de que el concepto cubierto se entienda bien. Además, si encuentra un error, envíe una solicitud de extracción.
 
