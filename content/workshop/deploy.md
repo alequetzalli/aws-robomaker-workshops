@@ -26,7 +26,7 @@ Esta actividad cubre los pasos necesarios para preparar un robot físico para re
 
 2. Para esta actividad, necesita el ARN para el **rol de implementación** (deployment role) que se creó en el template de CloudFormation. Mire en la pestaña **Outputs** y copie el valor del ARN, que debería ser similar a esto:
 
- ```text
+    ```text
     arn:aws:iam::123456789012:role/robomaker-deployment-role
     ```
 
