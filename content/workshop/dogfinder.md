@@ -1,184 +1,185 @@
 ---
-title: "Activity #2: Find Fido, Dog Finder Robot"
+title: "Activity #2: Encuentra a Fido, Dog Finder Robot"
 chapter: true
 weight: 8
 ---
 
-# Cloud service integration to do object detection
 
-![2_dog](../../images/2_dog.jpg)
+# Integración de servicios en la nube para hacer detección de objetos
 
-Our objective: Find Fido!
 
-This activity covers working with a robot application that integrates with other AWS services. The robot will work in virtual world and turn and detect images, looking for one includes a dog.
+Nuestro objetivo: ¡Encontrar a Fido! 🐶 
 
-When complete, you will have learned:
+Esta actividad cubre el trabajo con una aplicación de robot que se integra con otros servicios de AWS. El robot funcionará en un mundo virtual y activará/detectará imágenes, buscando una que incluya un perro.
 
-* Using commands in the terminal to build and bundle our applications
-* Submitting a simulation job programmatically from the command line
-* Reviewing the output of Gazebo against CloudWatch logs posts directly from the robot
-* Show how robot camera output can be sent to Kinesis Video Streams for further use
-* Use `rostopic` commands to send a message to the robot to restart it's goal seeking once the dog image has been found
+Cuando termine, habrá aprendido a:
 
-## Activity tasks
+* Usar comandos en la terminal para construir y agrupar nuestras aplicaciones
+* Enviar un *trabajo de simulación* mediante programación desde la línea de comandos
+* Revisión de la salida de Gazebo contra CloudWatch registrando las publicaciones de temas directamente desde el robot
+* Muestra cómo se puede enviar la salida de la cámara del robot a Kinesis Video Streams para su uso posterior
+* Utilice los comandos `rostopic` para enviar un mensaje al robot para reiniciar su búsqueda de objetivos una vez que se haya encontrado la imagen del perro
 
+## Tareas de actividad
 
-1. For this activity, you will be using **three terminal tabs** to work side-by-side on the simulation and robot application directories, while using the third tab for working with the operating system.
 
-    Close all terminal windows (bash, Immediate, etc.)  and then use the green plus sign to open three tabs like this:
+1. Para esta actividad, utilizará **tres pestañas de terminal** para trabajar lado a lado en los directorios de aplicaciones de simulación y robot, mientras usa la **tercera pestaña** para trabajar con el OS (sistema operativo).
 
-    ![2_tabs](../../images/2_tabs.png)
+    Cierre todas las ventanas de terminal (*bash, Inmediato, etc.*) y luego use el signo más verde para abrir tres pestañas más:
 
-    When a task says to "From the **SIM TAB** run XXX", use the second/middle tab named "sim".
+    Cuando una tarea en los próximos pasos diga "Desde el **SIM TAB** ejecute XXX", use la *segunda pestaña* del medio llamada "sim".
 
-2. The project we'll be working with is located in GitHub.  You need to clone it into the Cloud9 environment so you can work with it.  From the **OS TAB**, run the following commands to clone the repository:
+2. El proyecto con el que trabajaremos se encuentra en GitHub. Debe clonarlo en el entorno Cloud9 para poder trabajar con él. Desde **TAB OS**, ejecute los siguientes comandos para clonar el repositorio:
 
-    ```bash
-    cd ~/environment
+    ```bash
+    cd ~/environment
 
-    # clone the DogFinder repository
-    git clone https://github.com/jerwallace/aws-robomaker-sample-application-dogfinder.git
-    ```
+    # clonar el repositorio DogFinder
+    git clone https://github.com/jerwallace/aws-robomaker-sample-application-dogfinder.git
+    ```
 
-3. To build the robot application, issue the following commands from the **ROBOT TAB**:
+3. Para compilar la aplicación de robot, emita los siguientes comandos desde **ROBOT TAB**:
 
-    ```bash
-    cd aws-robomaker-sample-application-dogfinder/robot_ws/
+    ```bash
+    cd aws-robomaker-sample-application-dogfinder/robot_ws/
 
-    # Ensure latest packages
-    sudo apt-get update
+    # Asegure los últimos paquetes
+    sudo apt-get update
 
-    # Pull in ROS packages (errors seen early on can be ignored)
-    # This 5-10 minutes to complete
-    rosdep install --from-paths src --ignore-src -r -y
+    # Tire de los paquetes ROS (los errores vistos desde el principio se pueden ignorar)
+    # Este paso toma unos 5-10 minutos para completar
+    rosdep install --from-paths src --ignore-src -r -y
 
-    # Build the robot application
-    colcon build
-    ```
+    # Construye la aplicación del robot
+    colcon build
+    ```
 
-4. Once that is complete, build the simulation application from the **SIM TAB**:
+4. Una vez que se haya completado, cree la aplicación de simulación a partir de **SIM TAB**:
 
-    ```bash
-    cd aws-robomaker-sample-application-dogfinder/simulation_ws/
+    ```bash
+    cd aws-robomaker-sample-application-dogfinder/simulation_ws/ 
 
-    # rosdep again - will complete quickly
-    rosdep install --from-paths src --ignore-src -r -y
+    # rosdep nuevamente - se completará rápidamente
+    rosdep install --from-paths src --ignore-src -r -y 
 
-    # Build the simulation application - will complete quickly
-    colcon build
-    ```
+    # Cree la aplicación de simulación: se completará rápidamente
+    colcon build
+    ```
 
-    The initial ROS dependency and build process takes a longer time due to all the external packages that need to be downloaded, compiled, and/or installed. As you make small changes to code and iterate, the build process becomes much faster. The initial build time is a good reason to size your Cloud9 IDE accordingly.
+    El proceso de creación y dependencia de ROS inicial lleva más tiempo debido a todos los paquetes externos que deben descargarse, compilarse o instalarse. A medida que realiza pequeños cambios en el código e itera, el proceso de compilación se vuelve mucho más rápido. 
+    
+    Ahora, tanto el robot como la aplicación de simulación están listos. La *aplicación de simulación* tendrá el mundo del hexágono listo con el TurtleBot3 centrado, y la aplicación de robot se ha creado con integración nativa a CloudWatch Logs, Metric y Kinesis Video Streams; y soporte de **boto3** (SDK de Python) para enviar imágenes a **Amazon Rekognition** para la detección de objetos.
 
-    At this point both robot and simulation application are ready. The simulation application will have the hexagon world ready with the TurtleBot3 centered, and the robot application has been built with native integration to CloudWatch Logs, Metric and Kinesis Video Streams; and boto3 support to send images to Amazon Rekognition for object detection.
+    Sin embargo, dado que no podemos simular desde el IDE de Cloud9, continúe agrupando (bundling/building) ambas aplicaciones.
 
-    However, since we cannot simulate from the Cloud9 IDE,continue to bundle both applications.
+5. Para agrupar la aplicación del robot, desde **ROBOT TAB** ejecute lo siguiente:
 
-5. To bundle the robot application, from the **ROBOT TAB** execute the following:
+    ```bash
+    # asegúrese de que colcon bundle sea la última versión. Esto solo debe ejecutarse una vez en el entorno Cloud9
+    sudo pip3 install -U colcon-bundle colcon-ros-bundle
 
-    ```bash
-    #make sure colcon bundle is the latest version.  This only needs to be run once in the Cloud9 environment
-    sudo pip3 install -U colcon-bundle colcon-ros-bundle
+    #crear el paquete para la aplicación del robot
+    colcon bundle
+    ``` 
 
-    #create the bundle for the robot application
-    colcon bundle
-    ```
+    Una vez completado con éxito, haga lo mismo en **SIM TAB**:
 
-    Once successfully completed, do the same on the **SIM TAB**:
+    ```bash
+    #crear el paquete para la aplicación de simulación
+    colcon bundle
+    ```
 
-    ```bash
-    #create the bundle for the simulation application
-    colcon bundle
-    ```
+    Estas dos operaciones crearán archivos tar completos para su uso y los escribirán en cada directorio de paquete respectivo de espacios de trabajo.
 
-    These two operations will create complete tar files for use and will write them to eaach workspaces' respective bundle directory.
+    *¿Por qué tengo que seguir todos estos pasos cuando en la actividad anterior hice clic en un comando de menú y ocurrió la magia?!?!* 
 
-    *Why do I have to go through all these steps when in the previous activity I just clicked a menu command and magic happened?!?!*
+    Ese es uno de los beneficios de AWS RoboMaker, la capacidad de incluir la complejidad de ROS en unos pocos comandos.😁  
+    
+    En el fondo, se estaban siguiendo los mismos pasos que acaba de completar. Al hacer esto paso a paso, puede entender mejor el proceso completo de construir e implementar una aplicación de robot. En muchas situaciones, tendrá que pasar por configuraciones similares para sus aplicaciones, por lo que es útil familiarizarse con ellas.
 
-    That's one of the benefits of AWS RoboMaker, the ability to wrap the complexity of ROS into a few commands. In the background all of the same steps were being taken as you just completed. By doing this step-by-step,  you can see process is to build and deploy a robot application. In a lot of situations you will have to go through similar setups for your applications, so having familiarity with it is helpful.
+6. Con ambas aplicaciones integradas, ahora las copiará a S3 para que puedan ser utilizadas por el servicio de simulación. Para ambas aplicaciones, copie a S3:
 
-6. With both applications built, you will now copy them to S3 so they can be used by the simulation service. For both applications, copy to S3:
+    De la **PESTAÑA ROBOT**:
 
-    From the **ROBOT TAB**:
+    ```bash
+    # Reemplace <YOUR_BUCKET_NAME> con su cubo
+    aws s3 cp bundle/output.tar s3://<YOUR_BUCKET_NAME>/dogfinder/output-robot.tar 
+    ```
 
-    ```bash
-    # Replace <YOUR_BUCKET_NAME> with your bucket
-    aws s3 cp bundle/output.tar s3://<YOUR_BUCKET_NAME>/dogfinder/output-robot.tar
-    ```
+   ... y del **SIM TAB**:
 
-    and from the **SIM TAB**:
+    ```bash
+    # Reemplace <YOUR_BUCKET_NAME> con..
+    aws s3 cp bundle/output.tar s3://<YOUR_BUCKET_NAME>/dogfinder/output-sim.tar 
+    ```
 
-    ```bash
-    # Replace <YOUR_BUCKET_NAME> with
-    aws s3 cp bundle/output.tar s3://<YOUR_BUCKET_NAME>/dogfinder/output-sim.tar
-    ```
+7. Con los archivos de paquete listos, cree un trabajo de simulación desde la pestaña del sistema operativo. En la raíz del directorio /DogFinder hay un nombre de archivo.
 
-7. With the bundle files ready, create a simulation job from the OS TAB. In the root of the DogFinder directory is a file named `submit_job.sh`. Double-click it and replace the entries at the top of the file with your specific ones (S3 bucket, VPC details, etc.), **and then save**. There is a complete one in your **CloudFormation > Outputs**. It should look similar to this:
+7. Con los archivos de paquete listos, cree un trabajo de simulación desde la pestaña del sistema operativo. En la raíz del directorio /DogFinder hay un archivo llamado `submit_job.sh`. Haga doble clic en él y reemplace los "outputs" en la parte superior del archivo con las específicas (depósito S3, detalles de VPC, etc.), **y luego guardelos** (save). Hay uno completo en su **CloudFormation> Outputs**. Debería ser similar a esto:
 
-    ```bash
-     #!/bin/bash
-     # Example - replace with your own
-     export BUCKET_NAME="<YOUR_BUCKET_NAME>"
-     export SUBNETS="subnet-e2xxx795,subnet-e2xxx123"
-     export SECURITY_GROUP="sg-fe2xxx9a"
-     export ROLE_ARN="arn:aws:iam::1234565789012:role/robomaker_role"
-    ```
+    ```bash
+     #! / bin / bash
+     # Ejemplo: reemplace con el suyo
+     export BUCKET_NAME="<YOUR_BUCKET_NAME>"
+    export SUBNETS="subnet-e2xxx795,subnet-e2xxx123"
+    export SECURITY_GROUP="sg-fe2xxx9a"
+    export ROLE_ARN="arn:aws:iam::1234565789012:role/robomaker_role"
+    ```
 
-8. In the **OS TAB**, run the script which will create the robot and simulation applications, then create and start the simulation job:
+8. En el **OS TAB**, ejecute el script que creará el robot y las aplicaciones de simulación, luego cree e inicie el trabajo de simulación:
 
-    ```bash
-    # script in top-level of DogFinder/ directory, adjust as needed
-    aws-robomaker-sample-application-dogfinder/submit_job.sh
-    ```
+    ```bash
+    # script en el nivel superior del directorio /DogFinder, ajuste según sea necesario
+    aws-robomaker-sample-application-dogfinder/submit_job.sh 
+    ```
 
-    A successful launch will return a JSON document with all the details including an *arn* with the simulation job value:
+    Un lanzamiento exitoso devolverá un documento JSON con todos los detalles, incluido un *ARN* con el valor del trabajo de simulación:
 
-    ```json
-    "arn": "arn:aws:robomaker:us-west-2:123456789012:simulation-job/sim-8rcvbm7p023f",
-    ```
+    ```json
+    "arn": "arn:aws:robomaker:us-west-2:123456789012:simulation-job/sim-8rcvbm7p023f",
+    ```
 
-9. At this point you can open a AWS RoboMaker console and check the status of the simulation job. It will take a few minutes to go from *Pending* to *Running*, but that point you can open Gazebo and Terminal applications.
+9. En este punto, puede abrir una consola de AWS RoboMaker y verificar el estado del trabajo de simulación. Tardará unos minutos en pasar de *Pendiente* a *En ejecución*, pero en ese punto puede abrir las aplicaciones Gazebo y Terminal.
 
-     Notice in Gazebo as you pan around that the robot if facing north at the picture of the bridge. Right now the robot is waiting for a message to start goal seeking and finding the picture of the dog. Before you issue the command from the simulation terminal, let's bring up the following windows and resize so we can see them all (the may take a bit of adjusting):
+     Observe en Gazebo mientras ve como el robot está mirando hacia el norte en la imagen del puente. En este momento, el robot está esperando un mensaje para comenzar a buscar objetivos y encontrar la imagen del perro. Antes de emitir el comando desde el terminal de simulación, veamos las siguientes ventanas y redimensionemos para que podamos verlas todas (puede tomar un poco de ajuste):
 
-     * *Kinesis Video Streams* console, then click on your stream
-     * *Gazebo*, zoom in to the hexagon and the robot
-     * *Simulation job Terminal*, where you will issue the start command
+     * *Kinesis Video Streams* consola, luego haga clic en su transmisión
+     * *Gazebo*, acerca el hexágono y el robot
+     * *Terminal de trabajo de simulación*, donde emitirá el comando de inicio
 
-     ![2_all_windows](../../images/2_all_windows.png)
 
-     You don't need to see too much of the video stream window in the background, just enough to see it steaming video.
+     No necesita ver demasiado de la ventana de transmisión de video en segundo plano, solo lo suficiente para ver el video humeante.
 
-10. At this point, in Gazebo the robot should be facing upwards (due North); the video stream should show the bridge photo; and CloudWatch logs should show a message "Waiting to start finding Fido". Now from the terminal, you will send a message to a topic the robot is listening on to start the goal seeking action:
+10. En este punto, en Gazebo, el robot debe mirar hacia arriba (hacia el norte); la transmisión de video debe mostrar la foto del puente; y los registros (logs) de CloudWatch deben mostrar un mensaje "Esperando para comenzar a encontrar a Fido". Ahora desde la terminal, enviará un mensaje a un tema que el robot está escuchando para comenzar la acción de búsqueda de objetivos:
 
-     ```bash
-     rostopic pub --once /df_action std_msgs/String 'start'
-     ```
+     ```bash
+     rostopic pub --once /df_action std_msgs/String 'start'
+     ```
 
-     What this will do is publish (`pub`) a single message (`--once`) to the topic your robot is listening on (`/df_action`), and will send a string type  (`std_msgs/String`) with the command to process (`start`). The robot will receive this command and start the task (turn and process images), looking for our target, a picture of a dog.
+     Lo que esto hará es publicar (`pub`) un solo mensaje (` --once`) sobre el tema que escucha su robot (`/ df_action`), y enviará un tipo de string (` std_msgs / String`) con el comando para procesar (`start`). El robot recibirá este comando y comenzará la tarea (girar y procesar imágenes), buscando nuestro objetivo, una imagen de un perro. 🐶 
 
-     *When you see the robot start turn in Gazebo, if the video stream doesn't update, click the "fast-forward" button to forward to realtime.*
+     *Cuando vea que el robot comienza a girar en Gazebo, si la transmisión de video no se actualiza, haga clic en el botón "avance rápido" para avanzar al tiempo real.*
 
-     Once a dog has been found, the robot will stop and log in CloudWatch Logs->Log Groups->dogfinder_workshop->TurtleBot3 informational messages on finding the dog!
+     Una vez que se ha encontrado un perro, el robot se detendrá e iniciará sesión en **CloudWatch Registros-> Groupos de Registro-> dogfinder_workshop-> TurtleBot3** ¡mensajes informativos sobre cómo encontrar al perro!
 
-     ![2_dog_logs](../../images/2_dog_logs.png)
 
-11. Once the dog image is found, the robot waits for the next command to start the process again. You can issue the `rostopic pub` command again in the terminal to start the process again.
+11. Una vez que se encuentra la imagen del perro, el robot espera el siguiente comando para comenzar el proceso nuevamente. Puede emitir el comando `rostopic pub` nuevamente en la terminal para iniciar el proceso nuevamente.
 
-12. At this point if there is time, feel free to investigate the other applications and look at how the code is working. For example, if you'd like to see the robot's view of the world via rqt, open the rqt application and from the rqt menu select Plugins->Visualization->Image View and then in Image View drop down, select /camera/rgb/image_raw.
+12. En este punto, si hay tiempo, siéntase libre de investigar las otras aplicaciones y ver cómo funciona el código. Por ejemplo, si desea ver la vista del mundo del robot a través de **rqt**, abra la aplicación *rqt* y en el menú *rqt* seleccione **Plugins-> Visualizacion-> Image View** y luego en ese drop down menú, seleccione */camera/rgb/image_raw.*
 
-## Activity wrap-up
+## Resumen de actividad
 
-In this activity, you built and simulated a robot application that not only interacts (turns) in Gazebo, but also utilizes other AWS services. This include ROS native integration such as CloudWatch logs and Kinesis Video Streams, or through the flexible use of AWS SDK's such as boto3 to interact with other AWS services such as Amazon Rekognition.
+En esta actividad, creó y simuló una aplicación de robot 🤖  que no solo interactúa (gira) en Gazebo, sino que también utiliza otros servicios de AWS. Esto incluye la integración nativa de ROS, como los registros (logs) de CloudWatch y Kinesis Video Streams, o mediante el uso flexible de AWS SDK, como *boto3*, para interactuar con otros servicios de AWS como Amazon Rekognition.
 
-What was covered:
+Lo que estaba cubierto:
 
-* Working with ROS applications inside the Development Environment at a command line level
-* Understanding the resources required to compile (build) and package (bundle) a ROS application
-* Using the AWS CLI to interact with AWS RoboMaker to create applications, upload bundles, and launch simulation jobs
-* Using AWS services such as Kinesis Video Streams and CloudWatch logs directly from ROS to interact with the robot (virtual or real)
-* Use standard SDK's to interact with other AWS services
+* Trabajar con aplicaciones ROS dentro del entorno de desarrollo a nivel de línea de comando
+* Comprender los recursos necesarios para compilar (compilar) y empaquetar (agrupar) una aplicación ROS
+* Uso de la CLI de AWS para interactuar con AWS RoboMaker para crear aplicaciones, cargar paquetes e iniciar trabajos de simulación
+* Uso de servicios de AWS como Kinesis Video Streams y CloudWatch logs (registros) directamente desde ROS para interactuar con el robot (virtual o real)
+* Use SDK estándar para interactuar con otros servicios de AWS
 
-### Clean-up
+### Limpiar
 
-In this activity, you created a Development environment, CloudWatch logs, and S3 objects that incure cost. Please follow the clean-up steps in the main. README document on how to remove these and stop any potential costs for occurring.
+En esta actividad, creó un entorno de Desarrollo, registros de CloudWatch y objetos S3 que inciden en el costo. Siga los pasos de limpieza en la página principal. Lea el documento README sobre cómo eliminarlos y detener cualquier costo potencial por ocurrir.
+
