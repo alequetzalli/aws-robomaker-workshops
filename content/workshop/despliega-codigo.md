@@ -66,7 +66,7 @@ Esta actividad cubre los pasos necesarios para preparar un robot físico para re
 
 12. AWS RoboMaker utiliza AWS GreenGrass para implementar sus paquetes de robots en su dispositivo. Ahora debe configurar los ajustes de AWS GreenGrass de RoboMaker. Puede dejar la configuración de *Grupo de AWS Greengrass* y *Prefijo de AWS Greengrass* como sus valores predeterminados.
 
-13. Para *rol del IAM *, elija "rol-deployment-robomaker". Este rol fue creado en el ejercicio 1 de este trabajo. Su aplicación de robot asume esta función cuando se ejecuta en su dispositivo y le da permiso para acceder a los servicios de AWS en su nombre.
+13. Para *rol del IAM*, elija "rol-deployment-robomaker". Este rol fue creado en el ejercicio 1 de este trabajo. Su aplicación de robot asume esta función cuando se ejecuta en su dispositivo y le da permiso para acceder a los servicios de AWS en su nombre.
 
 14. Haga clic en **Crear**.
 
