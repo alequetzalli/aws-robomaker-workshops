@@ -12,7 +12,7 @@ AWS RoboMaker extiende el software de robótica de código abierto más utilizad
 
 **Aquí está nuestra agenda para el día:**
 
-**(1) [Configuración previa al taller](https://github.com/alequetzalli/aws-robomaker-workshops/blob/master/content/workshop/setup.md)**
+**(1) [Configuración previa al taller](https://github.com/alequetzalli/aws-robomaker-workshops/blob/master/content/workshop/configuraci%C3%B3n.md )**
 
 Comenzaremos configurando su cuenta de AWS para desarrollar aplicaciones de robot con AWS RoboMaker.
 
