@@ -12,7 +12,7 @@ Para completar este taller, necesita una **cuenta de AWS con permisos administra
 
 **Nota: Utilizaremos us-west-2 (Oregon) para este taller.**
 
-Si está en un salón de clases, le proporcionaremos un código de crédito que debe aplicar ahora. Para aplicar el código de crédito, seleccione su nombre de usuario en la esquina superior derecha de la consola de AWS y haga clic en ** Mi cuenta **. Luego, haga clic en ** Créditos **.
+Si está en un salón de clases, le proporcionaremos un código de crédito que debe aplicar ahora. Para aplicar el código de crédito, seleccione su nombre de usuario en la esquina superior derecha de la consola de AWS y haga clic en ** Mi cuenta **. Luego, haga clic en **Créditos**.
       
    **Importante:** *Los códigos de crédito proporcionados cubrirán el costo de este taller. Sin embargo, debe limpiar los recursos una vez que el taller haya finalizado.*
 
