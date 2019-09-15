@@ -24,9 +24,9 @@ Una vez que haya iniciado sesión con éxito en la consola de AWS, inicie el sig
 
 Esto creará:
 
-   - un **VPC** y un par de **subnets** y un **grupo de seguridad default** para ejecutar instancias de AWS RoboMaker.
-   - un **S3 bucket** para almacenar tus assets de Robomaker (como paquetes de aplicaciones).
-   - **Dos roles de IAM** que usarás para el taller.
+- un **VPC** y un par de **subnets** y un **grupo de seguridad default** para ejecutar instancias de AWS RoboMaker.
+- un **S3 bucket** para almacenar tus assets de Robomaker (como paquetes de aplicaciones).
+- **Dos roles de IAM** que usarás para el taller.
 
 Una vez que se haya lanzado el nuevo "stack", tome nota de los **outputs**. Utilizaremos estos valores durante todo el taller.
 
