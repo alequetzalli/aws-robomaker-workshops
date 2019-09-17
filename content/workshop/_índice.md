@@ -20,15 +20,15 @@ Comenzaremos configurando su cuenta de AWS para desarrollar aplicaciones de robo
 
 En esta actividad, configurará un entorno de desarrollo (development environment) donde creará, agrupará y simulará una aplicación clásica de "Hello World".
 
-**(3) [Buscar Fido: API de integración de la nube](https://github.com/alequetzalli/aws-robomaker-workshops/blob/master/content/workshop/dogfinder.md)**
+**(3) [Buscar Fido: API de integración de la nube](https://github.com/alequetzalli/aws-robomaker-workshops/blob/master/content/workshop/encontrar-fido.md)**
 
 En esta actividad, explorará otros métodos para crear e implementar aplicaciones en el entorno de desarrollo, y verá cómo una aplicación puede interactuar directamente con los servicios de AWS y los nodes/temas de ROS. También veremos cómo se puede usar cualquier servicio de AWS con llamadas al SDK (python boto3 en este caso).
 
-**(4) [Implementar código de Hello World Robot](https://github.com/alequetzalli/aws-robomaker-workshops/blob/master/content/workshop/deploy.md)** 
+**(4) [Implementar código de Hello World Robot](https://github.com/alequetzalli/aws-robomaker-workshops/blob/master/content/workshop/helloworld.md)** 
 
 En esta actividad, explorará cómo configurar un robot y una flota (grupo de robots), y desplegará (deploy) un paquete de software en su robot físico.
 
-**(5) [Limpieza](https://github.com/alequetzalli/aws-robomaker-workshops/blob/master/content/workshop/cleanup.md)**
+**(5) [Limpieza](https://github.com/alequetzalli/aws-robomaker-workshops/blob/master/content/workshop/limpieza.md)**
 
 Lea y complete cada actividad antes de comenzar la siguiente. Si algo no parece correcto, solicite ayuda ya que queremos asegurarnos de que el concepto cubierto se entienda bien. Además, si encuentra un error, envíe una solicitud de extracción.
 
