@@ -33,10 +33,10 @@ En esta actividad, configurará un entorno de desarrollo de AWS RoboMaker para c
 
 La *Página de bienvenida* proporciona información útil para comenzar, pero por ahora no la vamos a usar, así que haga clic en la *X* en la pestaña para cerrar. El IDE se divide en cuatro secciones:
 
-    - (1) El menú de AWS RoboMaker proporciona acceso rápido a acciones comunes. Se actualiza cuando el `roboMakerSettings.json` se modifica más adelante en esta tarea.
-    - (2) Todos los archivos y folders residirán aquí, y se pueden seleccionar y hacer doble clic para abrirlos en el panel del editor (# 4).
-    - (3) La sección inferior es un panel ajustable para crear o monitorear operaciones de línea de comando. Los desarrolladores de ROS trabajan en esta área para construir, probar e interactuar con el código local.
-    - (4) Este es el panel principal del editor.
+- (1) El menú de AWS RoboMaker proporciona acceso rápido a acciones comunes. Se actualiza cuando el `roboMakerSettings.json` se modifica más adelante en esta tarea.
+- (2) Todos los archivos y folders residirán aquí, y se pueden seleccionar y hacer doble clic para abrirlos en el panel del editor (# 4).
+- (3) La sección inferior es un panel ajustable para crear o monitorear operaciones de línea de comando. Los desarrolladores de ROS trabajan en esta área para construir, probar e interactuar con el código local.
+- (4) Este es el panel principal del editor.
 
 4. Elimine el archivo `roboMakerSettings.json` haciendo clic derecho sobre él y seleccionando *Eliminar* -> Sí. Usaremos el archivo de aplicaciones de ejemplo para completar. 
 
@@ -156,9 +156,9 @@ Mientras se están creando, tómese un momento para revisar el archivo JSON para
 
 13. Cuando se completen ambas operaciones de paquete, inicie un trabajo de simulación (*Ejecutar-> Iniciar simulación-> HelloWorld*). Esto hará lo siguiente:
 
-    * Cargar el robot y los paquetes de aplicaciones de simulación (aproximadamente 1.2GiB) en el cubo S3
-    * Crear una aplicación de robot y una aplicación de simulación que hagan referencia a los paquetes cargados
-    * Iniciar el trabajo de simulación en su VPC definida
+- Cargar el robot y los paquetes de aplicaciones de simulación (aproximadamente 1.2GiB) en el cubo S3
+- Crear una aplicación de robot y una aplicación de simulación que hagan referencia a los paquetes cargados
+- Iniciar el trabajo de simulación en su VPC definida
 
     *Nota: Si se encuentra con un error en este paso, verifique su archivo `roboMakerSettings.json` y asegúrese de que todas las referencias de S3 y el rol de IAM hayan cambiado a los valores de sus salidas de CloudFormation.*
 
